@@ -51,13 +51,14 @@ local function findPath(root, ...)
     return node
 end
 
+-- Remotes are game-specific; missing them disables farm features but NOT the GUI
 local RemotesFolder = waitChild(RS, "Remotes", Config.LoadTimeout)
 if not RemotesFolder then
-    warnf("ReplicatedStorage.Remotes not found, wrong game?")
-    return
+    warnf("ReplicatedStorage.Remotes not found — farm features disabled, GUI will still load")
 end
 
 local function invoke(name, ...)
+    if not RemotesFolder then return { Ok = false, Reason = "NoRemotes" } end
     local r = RemotesFolder:FindFirstChild(name)
     if not r or not r:IsA("RemoteFunction") then return { Ok = false, Reason = "Missing:" .. name } end
     local ok, res = pcall(r.InvokeServer, r, ...)
@@ -404,7 +405,7 @@ if playerGui then
 end
 
 -- Executors with neither getconnections nor firesignal: claim straight from the server event.
-local bonusEvent = RemotesFolder:FindFirstChild("Training_Bonus")
+local bonusEvent = RemotesFolder and RemotesFolder:FindFirstChild("Training_Bonus")
 if bonusEvent and bonusEvent:IsA("RemoteEvent") and not CAN_PRESS then
     table.insert(connections, bonusEvent.OnClientEvent:Connect(function(id, deadline)
         if not S.AutoBonus then return end
