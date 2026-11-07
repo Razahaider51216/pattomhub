@@ -427,11 +427,16 @@ end
 
 ---@return string?  nil if the executor can't serve the file
 function Util.CustomAsset(path)
-    if type(getcustomasset) ~= "function" then
+    local fn = getcustomasset or getsynasset
+    if type(fn) ~= "function" then
         return nil
     end
-    local finished, asset = Util.Await(Config.HttpTimeout, getcustomasset, path)
-    return finished and type(asset) == "string" and asset:find("^rbxasset") and asset or nil
+    local ok, asset = pcall(fn, path)
+    if ok and type(asset) == "string" and #asset > 0 then
+        return asset
+    end
+    local finished, asyncAsset = Util.Await(Config.HttpTimeout, fn, path)
+    return finished and type(asyncAsset) == "string" and #asyncAsset > 0 and asyncAsset or nil
 end
 
 ---isfile through SafeFile would read a stub's nil as "exists".
@@ -1184,6 +1189,20 @@ function Assets.Resolve(name)
         content = Util.CustomAsset(source)
     elseif type(source) == "string" and Util.Exists(Config.Root .. "/" .. source) then
         content = Util.CustomAsset(Config.Root .. "/" .. source)
+    end
+    if not content and (key == "logo" or key == "pattomhub" or key == "pattomhub.png") then
+        local remoteUrl = "https://raw.githubusercontent.com/Razahaider51216/pattomhub/main/pattomhub.png"
+        local path = "pattom-hub/pattomhub.png"
+        if not Util.Exists(path) and Util.FileApi() and (type(getcustomasset) == "function" or type(getsynasset) == "function") then
+            local body = Util.HttpGet(remoteUrl)
+            if type(body) == "string" and #body > 8 then
+                Util.EnsureFolder(Config.Root)
+                pcall(writefile, path, body)
+                content = Util.CustomAsset(path)
+            end
+        elseif Util.Exists(path) then
+            content = Util.CustomAsset(path)
+        end
     end
     Assets.Cache[key] = content or false
     return content

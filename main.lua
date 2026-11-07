@@ -449,9 +449,9 @@ local function ensureAssets()
         if isfolder and not isfolder(Config.Folder) then
             makefolder(Config.Folder)
         end
-        if (not isfile or not isfile(Config.LogoFile)) and game.HttpGet then
-            local logoData = game:HttpGet(BaseUrl .. "pattomhub.png")
-            if logoData and #logoData > 0 then
+        if game.HttpGet then
+            local okLogo, logoData = pcall(game.HttpGet, game, BaseUrl .. "pattomhub.png?t=" .. os.time())
+            if okLogo and type(logoData) == "string" and #logoData > 100 then
                 writefile(Config.LogoFile, logoData)
             end
         end
@@ -459,17 +459,12 @@ local function ensureAssets()
 end
 ensureAssets()
 
--- UI: the restyled library in ui.lua, read from local workspace or fetched from github
+-- UI: always fetch latest from GitHub with cache-buster, fallback to local file
 local function loadLibrary()
     local body = nil
-    if isfile and readfile and isfile(Config.UiFile) then
-        local okRead, res = pcall(readfile, Config.UiFile)
-        if okRead and type(res) == "string" and res:sub(-64):find("return Library%s*$") then
-            body = res
-        end
-    end
-    if not body and game.HttpGet then
-        local okGet, res = pcall(game.HttpGet, game, BaseUrl .. "ui.lua")
+    -- 1. Fetch latest directly from GitHub
+    if game.HttpGet then
+        local okGet, res = pcall(game.HttpGet, game, BaseUrl .. "ui.lua?t=" .. os.time())
         if okGet and type(res) == "string" and res:sub(-64):find("return Library%s*$") then
             body = res
             if writefile and isfolder and isfolder(Config.Folder) then
@@ -477,8 +472,15 @@ local function loadLibrary()
             end
         end
     end
+    -- 2. Fallback to cached local file
+    if not body and isfile and readfile and isfile(Config.UiFile) then
+        local okRead, res = pcall(readfile, Config.UiFile)
+        if okRead and type(res) == "string" and res:sub(-64):find("return Library%s*$") then
+            body = res
+        end
+    end
     if not body then
-        warnf("could not load ui.lua from file or GitHub")
+        warnf("could not load ui.lua from GitHub or local file")
         return nil
     end
     local chunk, compileErr = loadstring(body)
