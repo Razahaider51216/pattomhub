@@ -1,4 +1,4 @@
-﻿-- Pattom UI Â· standalone build 2026-10-10
+-- Pattom UI Â· standalone build 2026-10-10
 local TweenService = game:GetService("TweenService")
 local UserInputService = game:GetService("UserInputService")
 local RunService = game:GetService("RunService")
