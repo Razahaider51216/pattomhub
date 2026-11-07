@@ -46,7 +46,7 @@ local Config = {
     Window = {
         Width = 820, Height = 560, MinWidth = 520, MinHeight = 360,
         TouchWidth = 600, TouchHeight = 340, TouchMinWidth = 320, TouchMinHeight = 260,
-        Topbar = 56, Sidebar = 196, SidebarCompact = 64, Header = 62, Ground = 24, UserCard = 58,
+        Topbar = 56, Sidebar = 196, SidebarCompact = 64, Header = 62, Ground = 24, UserCard = 82,
         CompactBreakpoint = 640, TwoColumnMin = 540, Margin = 24, TouchMargin = 10,
         Radius = 12, Stroke = 3, Shadow = 6,
     },
@@ -3738,19 +3738,46 @@ function Window:BuildSidebar()
 end
 
 function Window:BuildUserCard(sidebar)
-    local card = Draw.New("Frame", { Name = "User", BackgroundTransparency = 1, AnchorPoint = Vector2.new(0, 1), Position = UDim2.fromScale(0, 1), Size = UDim2.new(1, -8, 0, Config.Window.UserCard), Parent = sidebar })
+    local cardHeight = Config.Window.UserCard or 82
+    local card = Draw.New("Frame", { Name = "User", BackgroundTransparency = 1, AnchorPoint = Vector2.new(0, 1), Position = UDim2.fromScale(0, 1), Size = UDim2.new(1, -8, 0, cardHeight), ClipsDescendants = true, Parent = sidebar })
     self.UserCard = card
     Draw.Box("Frame", { Size = UDim2.new(1, 0, 0, 2), BackgroundTransparency = 0.5, Parent = card }, "SidebarAlt")
-    local avatar = Draw.Box("ImageLabel", { AnchorPoint = Vector2.new(0, 0.5), Position = UDim2.new(0, 12, 0.5, 0), Size = UDim2.fromOffset(36, 36), Parent = card }, "PanelHeader", "Outline", UDim.new(1, 0), 2)
+    Draw.Box("Frame", { Position = UDim2.fromOffset(4, 5), Size = UDim2.new(1, -8, 1, -8), BackgroundTransparency = 0.55, Parent = card }, "SidebarAlt", "Outline", 8, 1)
+    local avatar = Draw.Box("ImageLabel", { AnchorPoint = Vector2.new(0, 0), Position = UDim2.fromOffset(10, 8), Size = UDim2.fromOffset(36, 36), Parent = card }, "PanelHeader", "Outline", UDim.new(1, 0), 2)
     task.spawn(function()
         local ok, image = pcall(Players.GetUserThumbnailAsync, Players, LocalPlayer.UserId, Enum.ThumbnailType.HeadShot, Enum.ThumbnailSize.Size100x100)
-        if ok then
+        if ok and image then
             avatar.Image = image
         end
     end)
-    self.UserName = Draw.Text({ Text = LocalPlayer.DisplayName, Position = UDim2.fromOffset(56, 11), Size = UDim2.new(1, -62, 0, 18), TextTruncate = Enum.TextTruncate.AtEnd, Parent = card }, "Body", 14, "SidebarText")
-    self.UserTag = Draw.Text({ Text = "@" .. LocalPlayer.Name, Position = UDim2.fromOffset(56, 29), Size = UDim2.new(1, -62, 0, 16), TextTruncate = Enum.TextTruncate.AtEnd, Parent = card }, "Desc", 12, "SidebarMuted")
+    self.UserName = Draw.Text({ Text = LocalPlayer.DisplayName, Position = UDim2.fromOffset(54, 8), Size = UDim2.new(1, -58, 0, 18), TextTruncate = Enum.TextTruncate.AtEnd, Parent = card }, "Body", 13, "SidebarText")
+    self.UserTag = Draw.Text({ Text = "@" .. LocalPlayer.Name, Position = UDim2.fromOffset(54, 26), Size = UDim2.new(1, -58, 0, 16), TextTruncate = Enum.TextTruncate.AtEnd, Parent = card }, "Desc", 11, "SidebarMuted")
     self.Avatar = avatar
+
+    local mapBadge = Draw.Box("Frame", { Name = "MapBadge", Position = UDim2.new(0, 8, 0, 49), Size = UDim2.new(1, -16, 0, 24), BackgroundTransparency = 0.35, Parent = card }, "Sidebar", "Outline", 6, 1)
+    local mapDot = Draw.Box("Frame", { AnchorPoint = Vector2.new(0, 0.5), Position = UDim2.new(0, 7, 0.5, 0), Size = UDim2.fromOffset(8, 8), Parent = mapBadge }, "Good", nil, UDim.new(1, 0))
+    Anim.Tween(mapDot, { BackgroundTransparency = 0.65 }, 1.1, "Sine", -1, true)
+    local mapLabel = Draw.Text({ Name = "MapName", Text = "Loading map...", Position = UDim2.new(0, 20, 0, 0), Size = UDim2.new(1, -24, 1, 0), TextTruncate = Enum.TextTruncate.AtEnd, TextXAlignment = Enum.TextXAlignment.Left, Parent = mapBadge }, "Desc", 11, "SidebarText")
+
+    task.spawn(function()
+        local placeName = nil
+        local ok, info = pcall(function()
+            return game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId)
+        end)
+        if ok and type(info) == "table" and info.Name and #info.Name > 0 then
+            placeName = info.Name
+        end
+        if not placeName or placeName == "" then
+            placeName = game.PlaceId > 0 and ("Place: " .. tostring(game.PlaceId)) or "Unknown Map"
+        end
+        if mapLabel and mapLabel.Parent then
+            mapLabel.Text = placeName
+        end
+    end)
+
+    self.MapBadge = mapBadge
+    self.MapDot = mapDot
+    self.MapLabel = mapLabel
 end
 
 function Window:BuildMain()
@@ -3865,7 +3892,7 @@ end
 
 -- จอเตี้ย (มือถือแนวนอน): ซ่อนการ์ดผู้เล่นกับคำอธิบายหัวแท็บ เพื่อคืนพื้นที่ให้เนื้อหา
 function Window:ApplyShort(height)
-    local short = height < 430
+    local short = height < 260
     local header = short and 46 or Config.Window.Header
     self.UserCard.Visible = not short
     self.TabScroll.Size = UDim2.new(1, -8, 1, -(short and 8 or Config.Window.UserCard + 8))
@@ -3887,9 +3914,31 @@ function Window:ApplyChrome(width, height)
     self.SearchField.Size = UDim2.fromOffset(searchWidth, Util.Metric("Box"))
     self.HeaderTitle.Size = UDim2.new(1, -(searchWidth + 44), 0, 26)
     self.HeaderDesc.Size = UDim2.new(1, -(searchWidth + 44), 0, 16)
-    self.UserName.Visible = not self.Compact
-    self.UserTag.Visible = not self.Compact
-    self.Avatar.Position = UDim2.new(0, self.Compact and 10 or 12, 0.5, 0)
+    if self.Compact then
+        self.UserName.Visible = false
+        self.UserTag.Visible = false
+        if self.MapLabel then self.MapLabel.Visible = false end
+        self.Avatar.Position = UDim2.fromOffset(10, 8)
+        if self.MapBadge then
+            self.MapBadge.Position = UDim2.fromOffset(10, 49)
+            self.MapBadge.Size = UDim2.fromOffset(36, 24)
+        end
+        if self.MapDot then
+            self.MapDot.Position = UDim2.new(0.5, -4, 0.5, 0)
+        end
+    else
+        self.UserName.Visible = true
+        self.UserTag.Visible = true
+        if self.MapLabel then self.MapLabel.Visible = true end
+        self.Avatar.Position = UDim2.fromOffset(10, 8)
+        if self.MapBadge then
+            self.MapBadge.Position = UDim2.new(0, 8, 0, 49)
+            self.MapBadge.Size = UDim2.new(1, -16, 0, 24)
+        end
+        if self.MapDot then
+            self.MapDot.Position = UDim2.new(0, 7, 0.5, 0)
+        end
+    end
 end
 
 function Window:AddTabSection(text)
