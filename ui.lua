@@ -2859,7 +2859,12 @@ function Popup.Open(card, scale, anchor, onClose)
     Popup.Close()
     card.Parent = State.Overlay
     State.Overlay.Visible = true
-    Popup.Place(card, anchor)
+    if anchor then
+        Popup.Place(card, anchor)
+    else
+        card.AnchorPoint = Vector2.new(0.5, 0.5)
+        card.Position = UDim2.fromScale(0.5, 0.5)
+    end
     scale.Scale = State.UserScale * 0.88
     Anim.Tween(scale, { Scale = State.UserScale }, Config.Tween.Pop, "Back")
     State.Popup = { Card = card, Scale = scale, OnClose = onClose }
@@ -3754,10 +3759,47 @@ function Window:BuildUserCard(sidebar)
     self.UserTag = Draw.Text({ Text = "@" .. LocalPlayer.Name, Position = UDim2.fromOffset(54, 26), Size = UDim2.new(1, -58, 0, 16), TextTruncate = Enum.TextTruncate.AtEnd, Parent = card }, "Desc", 11, "SidebarMuted")
     self.Avatar = avatar
 
-    local mapBadge = Draw.Box("Frame", { Name = "MapBadge", Position = UDim2.new(0, 8, 0, 49), Size = UDim2.new(1, -16, 0, 24), BackgroundTransparency = 0.35, Parent = card }, "Sidebar", "Outline", 6, 1)
-    local mapDot = Draw.Box("Frame", { AnchorPoint = Vector2.new(0, 0.5), Position = UDim2.new(0, 7, 0.5, 0), Size = UDim2.fromOffset(8, 8), Parent = mapBadge }, "Good", nil, UDim.new(1, 0))
-    Anim.Tween(mapDot, { BackgroundTransparency = 0.65 }, 1.1, "Sine", -1, true)
-    local mapLabel = Draw.Text({ Name = "MapName", Text = "Loading map...", Position = UDim2.new(0, 20, 0, 0), Size = UDim2.new(1, -24, 1, 0), TextTruncate = Enum.TextTruncate.AtEnd, TextXAlignment = Enum.TextXAlignment.Left, Parent = mapBadge }, "Desc", 11, "SidebarText")
+    local mapBadge = Draw.Box("TextButton", {
+        Name = "MapBadge",
+        Text = "",
+        AutoButtonColor = false,
+        Position = UDim2.new(0, 8, 0, 49),
+        Size = UDim2.new(1, -16, 0, 24),
+        BackgroundTransparency = 0.35,
+        Parent = card,
+    }, "Sidebar", "Outline", 6, 1)
+
+    local mapLabel = Draw.Text({
+        Name = "MapName",
+        Text = "Loading map...",
+        Position = UDim2.new(0, 10, 0, 0),
+        Size = UDim2.new(1, -28, 1, 0),
+        TextTruncate = Enum.TextTruncate.AtEnd,
+        TextXAlignment = Enum.TextXAlignment.Left,
+        Parent = mapBadge,
+    }, "Desc", 11, "SidebarText")
+
+    local mapChevron = Draw.Text({
+        Name = "MapChevron",
+        Text = ">",
+        AnchorPoint = Vector2.new(1, 0.5),
+        Position = UDim2.new(1, -8, 0.5, 0),
+        Size = UDim2.fromOffset(12, 16),
+        TextXAlignment = Enum.TextXAlignment.Center,
+        Parent = mapBadge,
+    }, "Logo", 12, "Accent")
+
+    mapBadge.MouseEnter:Connect(function()
+        Anim.Tween(mapChevron, { Position = UDim2.new(1, -5, 0.5, 0) }, 0.15)
+        Anim.Tween(mapBadge, { BackgroundTransparency = 0.15 }, 0.15)
+    end)
+    mapBadge.MouseLeave:Connect(function()
+        Anim.Tween(mapChevron, { Position = UDim2.new(1, -8, 0.5, 0) }, 0.15)
+        Anim.Tween(mapBadge, { BackgroundTransparency = 0.35 }, 0.15)
+    end)
+    mapBadge.Activated:Connect(function()
+        self:OpenMapDetails()
+    end)
 
     task.spawn(function()
         local placeName = nil
@@ -3776,8 +3818,323 @@ function Window:BuildUserCard(sidebar)
     end)
 
     self.MapBadge = mapBadge
-    self.MapDot = mapDot
+    self.MapChevron = mapChevron
     self.MapLabel = mapLabel
+end
+
+function Window:OpenMapDetails()
+    local viewport = State.Gui and State.Gui.AbsoluteSize or Vector2.new(800, 600)
+    local width = math.clamp(math.floor(viewport.X * 0.68), 360, 480)
+    local height = math.clamp(math.floor(viewport.Y * 0.78), 380, 520)
+
+    local card, face, scale = Popup.Card(width, height)
+    face.ClipsDescendants = true
+
+    -- Banner header (16:9 place banner)
+    local bannerHeight = 118
+    local banner = Draw.New("ImageLabel", {
+        Name = "Banner",
+        BackgroundTransparency = 1,
+        Image = "rbxthumb://type=Asset&id=" .. game.PlaceId .. "&w=768&h=432",
+        ScaleType = Enum.ScaleType.Crop,
+        Size = UDim2.new(1, 0, 0, bannerHeight),
+        Parent = face,
+    })
+
+    local grad = Draw.New("Frame", {
+        Name = "BannerGradient",
+        BackgroundTransparency = 0,
+        BackgroundColor3 = Color3.new(0, 0, 0),
+        Size = UDim2.fromScale(1, 1),
+        Parent = banner,
+    })
+    Draw.New("UIGradient", {
+        Rotation = 90,
+        Transparency = NumberSequence.new({
+            NumberSequenceKeypoint.new(0, 0.25),
+            NumberSequenceKeypoint.new(0.6, 0.6),
+            NumberSequenceKeypoint.new(1, 0.96),
+        }),
+        Parent = grad,
+    })
+
+    -- Close button (X) on top-right
+    local closeBtn = Draw.New("TextButton", {
+        Name = "CloseBtn",
+        Text = "×",
+        TextSize = 20,
+        TextColor3 = Color3.new(1, 1, 1),
+        Font = Enum.Font.GothamBold,
+        AnchorPoint = Vector2.new(1, 0),
+        Position = UDim2.new(1, -8, 0, 8),
+        Size = UDim2.fromOffset(26, 26),
+        BackgroundColor3 = Color3.fromRGB(20, 20, 20),
+        BackgroundTransparency = 0.4,
+        AutoButtonColor = false,
+        Parent = banner,
+    })
+    Draw.Corner(closeBtn, UDim.new(1, 0))
+    closeBtn.Activated:Connect(Popup.Close)
+
+    -- Map Icon
+    local mapIcon = Draw.Box("ImageLabel", {
+        Name = "MapIcon",
+        AnchorPoint = Vector2.new(0, 1),
+        Position = UDim2.new(0, 12, 1, -10),
+        Size = UDim2.fromOffset(46, 46),
+        Image = "rbxthumb://type=GameIcon&id=" .. game.PlaceId .. "&w=150&h=150",
+        Parent = banner,
+    }, "PanelHeader", "Outline", 10, 2)
+
+    -- Map Title & PlaceId
+    local mapTitle = Draw.Text({
+        Name = "Title",
+        Text = "Loading map...",
+        Position = UDim2.new(0, 66, 1, -50),
+        Size = UDim2.new(1, -106, 0, 20),
+        TextTruncate = Enum.TextTruncate.AtEnd,
+        TextXAlignment = Enum.TextXAlignment.Left,
+        Parent = banner,
+    }, "Logo", 16, "White")
+    Draw.Stroke(mapTitle, "Ink", 1.5)
+
+    local mapIdText = Draw.Text({
+        Name = "PlaceId",
+        Text = "Place ID: " .. tostring(game.PlaceId),
+        Position = UDim2.new(0, 66, 1, -26),
+        Size = UDim2.new(1, -106, 0, 16),
+        TextTruncate = Enum.TextTruncate.AtEnd,
+        TextXAlignment = Enum.TextXAlignment.Left,
+        Parent = banner,
+    }, "Desc", 12, "SidebarMuted")
+
+    task.spawn(function()
+        local ok, info = pcall(function()
+            return game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId)
+        end)
+        if ok and type(info) == "table" and info.Name and #info.Name > 0 then
+            if mapTitle and mapTitle.Parent then
+                mapTitle.Text = info.Name
+            end
+        end
+    end)
+
+    -- Live Stats Row: FPS | PING | PLAYERS
+    local statsRow = Draw.New("Frame", {
+        Name = "StatsRow",
+        BackgroundTransparency = 1,
+        Position = UDim2.fromOffset(10, bannerHeight + 8),
+        Size = UDim2.new(1, -20, 0, 36),
+        Parent = face,
+    })
+    Draw.List(statsRow, 6, true, Enum.HorizontalAlignment.Center, Enum.VerticalAlignment.Center)
+
+    local colWidth = math.floor((width - 20 - 12) / 3)
+
+    local function makeStatBox(iconText, defaultVal, colorToken)
+        local box = Draw.Box("Frame", {
+            Size = UDim2.fromOffset(colWidth, 34),
+            BackgroundTransparency = 0.4,
+            Parent = statsRow,
+        }, "SidebarAlt", "Outline", 8, 1)
+        Draw.Text({
+            Text = iconText,
+            AnchorPoint = Vector2.new(0, 0.5),
+            Position = UDim2.new(0, 6, 0.5, 0),
+            Size = UDim2.fromOffset(16, 16),
+            Parent = box,
+        }, "Logo", 12, colorToken or "Accent")
+        local valLabel = Draw.Text({
+            Text = defaultVal,
+            AnchorPoint = Vector2.new(1, 0.5),
+            Position = UDim2.new(1, -8, 0.5, 0),
+            Size = UDim2.new(1, -26, 1, 0),
+            TextXAlignment = Enum.TextXAlignment.Right,
+            Parent = box,
+        }, "Body", 12, "SidebarText")
+        return valLabel
+    end
+
+    local fpsVal = makeStatBox("⚡", string.format("%d FPS", math.floor(State.Fps + 0.5)), "Coin")
+    local pingVal = makeStatBox("📶", "PING --", "Accent")
+    local playersVal = makeStatBox("👥", string.format("%d/%d", #Players:GetPlayers(), Players.MaxPlayers), "Good")
+
+    -- Profile Card (ชื่อเรา)
+    local profBox = Draw.Box("Frame", {
+        Name = "MyProfile",
+        Position = UDim2.fromOffset(10, bannerHeight + 50),
+        Size = UDim2.new(1, -20, 0, 50),
+        BackgroundTransparency = 0.5,
+        Parent = face,
+    }, "SidebarAlt", "Outline", 8, 1)
+
+    local myAvatar = Draw.Box("ImageLabel", {
+        AnchorPoint = Vector2.new(0, 0.5),
+        Position = UDim2.new(0, 8, 0.5, 0),
+        Size = UDim2.fromOffset(36, 36),
+        Parent = profBox,
+    }, "PanelHeader", "Outline", UDim.new(1, 0), 2)
+    task.spawn(function()
+        local ok, img = pcall(Players.GetUserThumbnailAsync, Players, LocalPlayer.UserId, Enum.ThumbnailType.HeadShot, Enum.ThumbnailSize.Size100x100)
+        if ok and img and myAvatar.Parent then
+            myAvatar.Image = img
+        end
+    end)
+
+    Draw.Text({
+        Text = LocalPlayer.DisplayName,
+        Position = UDim2.fromOffset(52, 8),
+        Size = UDim2.new(1, -110, 0, 18),
+        TextTruncate = Enum.TextTruncate.AtEnd,
+        TextXAlignment = Enum.TextXAlignment.Left,
+        Parent = profBox,
+    }, "Body", 13, "SidebarText")
+
+    Draw.Text({
+        Text = "@" .. LocalPlayer.Name,
+        Position = UDim2.fromOffset(52, 26),
+        Size = UDim2.new(1, -110, 0, 16),
+        TextTruncate = Enum.TextTruncate.AtEnd,
+        TextXAlignment = Enum.TextXAlignment.Left,
+        Parent = profBox,
+    }, "Desc", 11, "SidebarMuted")
+
+    local youTag = Draw.Box("Frame", {
+        AnchorPoint = Vector2.new(1, 0.5),
+        Position = UDim2.new(1, -10, 0.5, 0),
+        Size = UDim2.fromOffset(42, 22),
+        Parent = profBox,
+    }, "Accent", nil, 6)
+    Draw.Text({
+        Text = "YOU",
+        Size = UDim2.fromScale(1, 1),
+        TextXAlignment = Enum.TextXAlignment.Center,
+        Parent = youTag,
+    }, "Logo", 11, "White")
+
+    -- Players in Server List Header
+    local listHeaderY = bannerHeight + 106
+    local listHeader = Draw.Text({
+        Name = "PlayerListHeader",
+        Text = "PLAYERS IN SERVER (" .. tostring(#Players:GetPlayers()) .. ")",
+        Position = UDim2.fromOffset(12, listHeaderY),
+        Size = UDim2.new(1, -24, 0, 18),
+        TextXAlignment = Enum.TextXAlignment.Left,
+        Parent = face,
+    }, "Logo", 12, "Accent")
+
+    -- Scrollable Player List
+    local listScrollY = listHeaderY + 22
+    local listScroll = Layout.ScrollFrame({
+        Position = UDim2.fromOffset(10, listScrollY),
+        Size = UDim2.new(1, -20, 1, -(listScrollY + 10)),
+        Parent = face,
+    })
+    listScroll.ScrollBarThickness = 4
+
+    local function populatePlayers()
+        listScroll:ClearAllChildren()
+        local listLayout = Draw.New("UIListLayout", {
+            SortOrder = Enum.SortOrder.LayoutOrder,
+            Padding = UDim.new(0, 4),
+            Parent = listScroll,
+        })
+        listLayout:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(function()
+            listScroll.CanvasSize = UDim2.fromOffset(0, listLayout.AbsoluteContentSize.Y + 8)
+        end)
+
+        local players = Players:GetPlayers()
+        if listHeader and listHeader.Parent then
+            listHeader.Text = "PLAYERS IN SERVER (" .. tostring(#players) .. ")"
+        end
+        if playersVal and playersVal.Parent then
+            playersVal.Text = string.format("%d/%d", #players, Players.MaxPlayers)
+        end
+
+        for i, player in ipairs(players) do
+            local row = Draw.Box("Frame", {
+                Name = player.Name,
+                Size = UDim2.new(1, -6, 0, 36),
+                BackgroundTransparency = 0.55,
+                LayoutOrder = (player == LocalPlayer) and 0 or i,
+                Parent = listScroll,
+            }, "Element", "Outline", 8, 1)
+
+            local pAvatar = Draw.Box("ImageLabel", {
+                AnchorPoint = Vector2.new(0, 0.5),
+                Position = UDim2.new(0, 6, 0.5, 0),
+                Size = UDim2.fromOffset(26, 26),
+                Parent = row,
+            }, "PanelHeader", "Outline", UDim.new(1, 0), 1)
+
+            task.spawn(function()
+                local ok, img = pcall(Players.GetUserThumbnailAsync, Players, player.UserId, Enum.ThumbnailType.HeadShot, Enum.ThumbnailSize.Size100x100)
+                if ok and img and pAvatar.Parent then
+                    pAvatar.Image = img
+                end
+            end)
+
+            Draw.Text({
+                Text = player.DisplayName,
+                Position = UDim2.fromOffset(38, 4),
+                Size = UDim2.new(1, -110, 0, 16),
+                TextTruncate = Enum.TextTruncate.AtEnd,
+                TextXAlignment = Enum.TextXAlignment.Left,
+                Parent = row,
+            }, "Body", 12, "SidebarText")
+
+            Draw.Text({
+                Text = "@" .. player.Name,
+                Position = UDim2.fromOffset(38, 19),
+                Size = UDim2.new(1, -110, 0, 14),
+                TextTruncate = Enum.TextTruncate.AtEnd,
+                TextXAlignment = Enum.TextXAlignment.Left,
+                Parent = row,
+            }, "Desc", 10, "SidebarMuted")
+
+            if player == LocalPlayer then
+                local mePill = Draw.Box("Frame", {
+                    AnchorPoint = Vector2.new(1, 0.5),
+                    Position = UDim2.new(1, -8, 0.5, 0),
+                    Size = UDim2.fromOffset(32, 18),
+                    Parent = row,
+                }, "Accent", nil, 4)
+                Draw.Text({
+                    Text = "YOU",
+                    Size = UDim2.fromScale(1, 1),
+                    TextXAlignment = Enum.TextXAlignment.Center,
+                    Parent = mePill,
+                }, "Logo", 10, "White")
+            end
+        end
+    end
+
+    populatePlayers()
+
+    local playerAdded = Players.PlayerAdded:Connect(populatePlayers)
+    local playerRemoving = Players.PlayerRemoving:Connect(populatePlayers)
+
+    local active = true
+    task.spawn(function()
+        while active and card.Parent do
+            if fpsVal and fpsVal.Parent then
+                fpsVal.Text = string.format("%d FPS", math.floor(State.Fps + 0.5))
+            end
+            if pingVal and pingVal.Parent then
+                local okPing, ping = pcall(function()
+                    return Stats.Network.ServerStatsItem["Data Ping"]:GetValue()
+                end)
+                pingVal.Text = okPing and string.format("%d ms", math.floor(ping + 0.5)) or "--"
+            end
+            task.wait(0.5)
+        end
+    end)
+
+    Popup.Open(card, scale, nil, function()
+        active = false
+        playerAdded:Disconnect()
+        playerRemoving:Disconnect()
+    end)
 end
 
 function Window:BuildMain()
@@ -3923,8 +4280,9 @@ function Window:ApplyChrome(width, height)
             self.MapBadge.Position = UDim2.fromOffset(10, 49)
             self.MapBadge.Size = UDim2.fromOffset(36, 24)
         end
-        if self.MapDot then
-            self.MapDot.Position = UDim2.new(0.5, -4, 0.5, 0)
+        if self.MapChevron then
+            self.MapChevron.Position = UDim2.new(0.5, 0, 0.5, 0)
+            self.MapChevron.AnchorPoint = Vector2.new(0.5, 0.5)
         end
     else
         self.UserName.Visible = true
@@ -3935,8 +4293,9 @@ function Window:ApplyChrome(width, height)
             self.MapBadge.Position = UDim2.new(0, 8, 0, 49)
             self.MapBadge.Size = UDim2.new(1, -16, 0, 24)
         end
-        if self.MapDot then
-            self.MapDot.Position = UDim2.new(0, 7, 0.5, 0)
+        if self.MapChevron then
+            self.MapChevron.Position = UDim2.new(1, -8, 0.5, 0)
+            self.MapChevron.AnchorPoint = Vector2.new(1, 0.5)
         end
     end
 end
