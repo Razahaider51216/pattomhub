@@ -368,6 +368,31 @@ function Util.KeyName(key)
     return type(key) == "string" and key or nil
 end
 
+function Util.GetPing()
+    local ok1, pingSec = pcall(function()
+        return LocalPlayer:GetNetworkPing()
+    end)
+    if ok1 and type(pingSec) == "number" and pingSec > 0 then
+        return math.floor(pingSec * 1000 + 0.5)
+    end
+
+    local ok2, pingPerf = pcall(function()
+        return Stats.PerformanceStats.Ping:GetValue()
+    end)
+    if ok2 and type(pingPerf) == "number" and pingPerf > 0 then
+        return math.floor(pingPerf + 0.5)
+    end
+
+    local ok3, pingVal = pcall(function()
+        return Stats.Network.ServerStatsItem["Data Ping"]:GetValue()
+    end)
+    if ok3 and type(pingVal) == "number" and pingVal > 0 then
+        return math.floor(pingVal + 0.5)
+    end
+
+    return 0
+end
+
 function Util.Inside(guiObject, position)
     local origin, size = guiObject.AbsolutePosition, guiObject.AbsoluteSize
     return position.X >= origin.X and position.X <= origin.X + size.X and position.Y >= origin.Y and position.Y <= origin.Y + size.Y
@@ -1338,6 +1363,26 @@ Sprite.Art = {
         "kkkkkyykkkkk", "kOOOOyyOOOOk", "kkkkkyykkkkk", ".kOOOyyOOOk.",
         ".kOOOyyOOOk.", ".kOOOyyOOOk.", ".kkkkkkkkkk.", "............",
     },
+    chevron = {
+        "............", "..kk........", "..kqqk......", "...kqqk.....",
+        "....kqqk....", ".....kqqk...", "......kqqk..", ".....kqqk...",
+        "....kqqk....", "...kqqk.....", "..kqqk......", "..kk........",
+    },
+    ping = {
+        "............", "..........gg", "..........gg", ".......gg.gg",
+        ".......gg.gg", "....gg.gg.gg", "....gg.gg.gg", ".gg.gg.gg.gg",
+        ".gg.gg.gg.gg", ".kk.kk.kk.kk", "............", "............",
+    },
+    users = {
+        "....kkkk....", "..kkyyyykk..", ".kyyyyyyyyk.", ".kyykkkkyyk.",
+        "..kkyyyykk..", "....kkkk....", "...kkkkkk...", "..kbbbbbbk..",
+        ".kbbbbbbbbk.", ".kbbkbbkbbk.", ".kkk.kk.kkk.", "............",
+    },
+    cross = {
+        "............", ".kk......kk.", ".krrk..krrk.", "..krrkkrrk..",
+        "...krrrrk...", "....krrk....", "...krrrrk...", "..krrkkrrk..",
+        ".krrk..krrk.", ".kk......kk.", "............", "............",
+    },
 }
 
 Sprite.Alias = {
@@ -1350,6 +1395,7 @@ Sprite.Alias = {
     download = "qblock", upload = "qblock", search = "boo", misc = "qblock", troll = "shell",
     farm = "lightning", throw = "arrow", training = "dumbbell", economy = "coin", sell = "coin",
     extras = "gift", gift = "gift", food = "food", dumbbell = "dumbbell", arrow = "arrow",
+    chevron = "chevron", ping = "ping", users = "users", players = "users", cross = "cross", close = "cross",
 }
 
 Sprite.Swaps = {
@@ -3779,22 +3825,20 @@ function Window:BuildUserCard(sidebar)
         Parent = mapBadge,
     }, "Desc", 11, "SidebarText")
 
-    local mapChevron = Draw.Text({
-        Name = "MapChevron",
-        Text = ">",
-        AnchorPoint = Vector2.new(1, 0.5),
-        Position = UDim2.new(1, -8, 0.5, 0),
-        Size = UDim2.fromOffset(12, 16),
-        TextXAlignment = Enum.TextXAlignment.Center,
-        Parent = mapBadge,
-    }, "Logo", 12, "Accent")
+    local mapChevron = Sprite.New(mapBadge, "chevron", 12)
+    mapChevron.AnchorPoint = Vector2.new(1, 0.5)
+    mapChevron.Position = UDim2.new(1, -8, 0.5, 0)
 
     mapBadge.MouseEnter:Connect(function()
-        Anim.Tween(mapChevron, { Position = UDim2.new(1, -5, 0.5, 0) }, 0.15)
+        if not self.Compact then
+            Anim.Tween(mapChevron, { Position = UDim2.new(1, -5, 0.5, 0) }, 0.15)
+        end
         Anim.Tween(mapBadge, { BackgroundTransparency = 0.15 }, 0.15)
     end)
     mapBadge.MouseLeave:Connect(function()
-        Anim.Tween(mapChevron, { Position = UDim2.new(1, -8, 0.5, 0) }, 0.15)
+        if not self.Compact then
+            Anim.Tween(mapChevron, { Position = UDim2.new(1, -8, 0.5, 0) }, 0.15)
+        end
         Anim.Tween(mapBadge, { BackgroundTransparency = 0.35 }, 0.15)
     end)
     mapBadge.Activated:Connect(function()
@@ -3858,13 +3902,10 @@ function Window:OpenMapDetails()
         Parent = grad,
     })
 
-    -- Close button (X) on top-right
+    -- Close button (X) on top-right with custom pixel cross sprite
     local closeBtn = Draw.New("TextButton", {
         Name = "CloseBtn",
-        Text = "×",
-        TextSize = 20,
-        TextColor3 = Color3.new(1, 1, 1),
-        Font = Enum.Font.GothamBold,
+        Text = "",
         AnchorPoint = Vector2.new(1, 0),
         Position = UDim2.new(1, -8, 0, 8),
         Size = UDim2.fromOffset(26, 26),
@@ -3874,6 +3915,9 @@ function Window:OpenMapDetails()
         Parent = banner,
     })
     Draw.Corner(closeBtn, UDim.new(1, 0))
+    local crossIcon = Sprite.New(closeBtn, "cross", 12)
+    crossIcon.AnchorPoint = Vector2.new(0.5, 0.5)
+    crossIcon.Position = UDim2.fromScale(0.5, 0.5)
     closeBtn.Activated:Connect(Popup.Close)
 
     -- Map Icon
@@ -3882,9 +3926,29 @@ function Window:OpenMapDetails()
         AnchorPoint = Vector2.new(0, 1),
         Position = UDim2.new(0, 12, 1, -10),
         Size = UDim2.fromOffset(46, 46),
-        Image = "rbxthumb://type=GameIcon&id=" .. game.PlaceId .. "&w=150&h=150",
+        BackgroundTransparency = 0,
+        ScaleType = Enum.ScaleType.Fit,
         Parent = banner,
     }, "PanelHeader", "Outline", 10, 2)
+
+    local mapFallback = Sprite.New(mapIcon, "castle", 24)
+    mapFallback.AnchorPoint = Vector2.new(0.5, 0.5)
+    mapFallback.Position = UDim2.fromScale(0.5, 0.5)
+
+    local function applyMapIcon(img)
+        if img and #img > 0 and mapIcon and mapIcon.Parent then
+            mapIcon.Image = img
+            if mapFallback and mapFallback.Parent then
+                mapFallback.Visible = false
+            end
+        end
+    end
+
+    if game.GameId and game.GameId > 0 then
+        applyMapIcon("rbxthumb://type=GameIcon&id=" .. tostring(game.GameId) .. "&w=150&h=150")
+    else
+        applyMapIcon("rbxthumb://type=Asset&id=" .. tostring(game.PlaceId) .. "&w=150&h=150")
+    end
 
     -- Map Title & PlaceId
     local mapTitle = Draw.Text({
@@ -3912,14 +3976,19 @@ function Window:OpenMapDetails()
         local ok, info = pcall(function()
             return game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId)
         end)
-        if ok and type(info) == "table" and info.Name and #info.Name > 0 then
-            if mapTitle and mapTitle.Parent then
+        if ok and type(info) == "table" then
+            if info.Name and #info.Name > 0 and mapTitle and mapTitle.Parent then
                 mapTitle.Text = info.Name
+            end
+            if info.IconImageAssetId and info.IconImageAssetId > 0 then
+                applyMapIcon("rbxassetid://" .. tostring(info.IconImageAssetId))
+            elseif game.GameId and game.GameId > 0 then
+                applyMapIcon("rbxthumb://type=GameIcon&id=" .. tostring(game.GameId) .. "&w=150&h=150")
             end
         end
     end)
 
-    -- Live Stats Row: FPS | PING | PLAYERS
+    -- Live Stats Row: FPS | PING | PLAYERS (with custom pixel sprites)
     local statsRow = Draw.New("Frame", {
         Name = "StatsRow",
         BackgroundTransparency = 1,
@@ -3931,33 +4000,205 @@ function Window:OpenMapDetails()
 
     local colWidth = math.floor((width - 20 - 12) / 3)
 
-    local function makeStatBox(iconText, defaultVal, colorToken)
+    local function makeStatBox(spriteName, defaultVal)
         local box = Draw.Box("Frame", {
             Size = UDim2.fromOffset(colWidth, 34),
             BackgroundTransparency = 0.4,
             Parent = statsRow,
         }, "SidebarAlt", "Outline", 8, 1)
-        Draw.Text({
-            Text = iconText,
-            AnchorPoint = Vector2.new(0, 0.5),
-            Position = UDim2.new(0, 6, 0.5, 0),
-            Size = UDim2.fromOffset(16, 16),
-            Parent = box,
-        }, "Logo", 12, colorToken or "Accent")
+        local icon = Sprite.New(box, spriteName, 14)
+        icon.AnchorPoint = Vector2.new(0, 0.5)
+        icon.Position = UDim2.new(0, 8, 0.5, 0)
         local valLabel = Draw.Text({
             Text = defaultVal,
             AnchorPoint = Vector2.new(1, 0.5),
             Position = UDim2.new(1, -8, 0.5, 0),
-            Size = UDim2.new(1, -26, 1, 0),
+            Size = UDim2.new(1, -28, 1, 0),
             TextXAlignment = Enum.TextXAlignment.Right,
             Parent = box,
         }, "Body", 12, "SidebarText")
-        return valLabel
+        return box, valLabel
     end
 
-    local fpsVal = makeStatBox("⚡", string.format("%d FPS", math.floor(State.Fps + 0.5)), "Coin")
-    local pingVal = makeStatBox("📶", "PING --", "Accent")
-    local playersVal = makeStatBox("👥", string.format("%d/%d", #Players:GetPlayers(), Players.MaxPlayers), "Good")
+    local _, fpsVal = makeStatBox("lightning", string.format("%d FPS", math.floor(State.Fps + 0.5)))
+    local _, pingVal = makeStatBox("ping", string.format("%d ms", Util.GetPing() or 0))
+    local _, playersVal = makeStatBox("users", string.format("%d/%d", #Players:GetPlayers(), Players.MaxPlayers))
+
+    -- Profile Card (ชื่อเรา)
+    local profBox = Draw.Box("Frame", {
+        Name = "MyProfile",
+        Position = UDim2.fromOffset(10, bannerHeight + 50),
+        Size = UDim2.new(1, -20, 0, 50),
+        BackgroundTransparency = 0.5,
+        Parent = face,
+    }, "SidebarAlt", "Outline", 8, 1)
+
+    local myAvatar = Draw.Box("ImageLabel", {
+        AnchorPoint = Vector2.new(0, 0.5),
+        Position = UDim2.new(0, 8, 0.5, 0),
+        Size = UDim2.fromOffset(36, 36),
+        Parent = profBox,
+    }, "PanelHeader", "Outline", UDim.new(1, 0), 2)
+    task.spawn(function()
+        local ok, img = pcall(Players.GetUserThumbnailAsync, Players, LocalPlayer.UserId, Enum.ThumbnailType.HeadShot, Enum.ThumbnailSize.Size100x100)
+        if ok and img and myAvatar.Parent then
+            myAvatar.Image = img
+        end
+    end)
+
+    Draw.Text({
+        Text = LocalPlayer.DisplayName,
+        Position = UDim2.fromOffset(52, 8),
+        Size = UDim2.new(1, -110, 0, 18),
+        TextTruncate = Enum.TextTruncate.AtEnd,
+        TextXAlignment = Enum.TextXAlignment.Left,
+        Parent = profBox,
+    }, "Body", 13, "SidebarText")
+
+    Draw.Text({
+        Text = "@" .. LocalPlayer.Name,
+        Position = UDim2.fromOffset(52, 26),
+        Size = UDim2.new(1, -110, 0, 16),
+        TextTruncate = Enum.TextTruncate.AtEnd,
+        TextXAlignment = Enum.TextXAlignment.Left,
+        Parent = profBox,
+    }, "Desc", 11, "SidebarMuted")
+
+    local youTag = Draw.Box("Frame", {
+        AnchorPoint = Vector2.new(1, 0.5),
+        Position = UDim2.new(1, -10, 0.5, 0),
+        Size = UDim2.fromOffset(42, 22),
+        Parent = profBox,
+    }, "Accent", nil, 6)
+    Draw.Text({
+        Text = "YOU",
+        Size = UDim2.fromScale(1, 1),
+        TextXAlignment = Enum.TextXAlignment.Center,
+        Parent = youTag,
+    }, "Logo", 11, "White")
+
+    -- Players in Server List Header
+    local listHeaderY = bannerHeight + 106
+    local listHeader = Draw.Text({
+        Name = "PlayerListHeader",
+        Text = "PLAYERS IN SERVER (" .. tostring(#Players:GetPlayers()) .. ")",
+        Position = UDim2.fromOffset(12, listHeaderY),
+        Size = UDim2.new(1, -24, 0, 18),
+        TextXAlignment = Enum.TextXAlignment.Left,
+        Parent = face,
+    }, "Logo", 12, "Accent")
+
+    -- Scrollable Player List
+    local listScrollY = listHeaderY + 22
+    local listScroll = Layout.ScrollFrame({
+        Position = UDim2.fromOffset(10, listScrollY),
+        Size = UDim2.new(1, -20, 1, -(listScrollY + 10)),
+        Parent = face,
+    })
+    listScroll.ScrollBarThickness = 4
+
+    local function populatePlayers()
+        listScroll:ClearAllChildren()
+        local listLayout = Draw.New("UIListLayout", {
+            SortOrder = Enum.SortOrder.LayoutOrder,
+            Padding = UDim.new(0, 4),
+            Parent = listScroll,
+        })
+        listLayout:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(function()
+            listScroll.CanvasSize = UDim2.fromOffset(0, listLayout.AbsoluteContentSize.Y + 8)
+        end)
+
+        local players = Players:GetPlayers()
+        if listHeader and listHeader.Parent then
+            listHeader.Text = "PLAYERS IN SERVER (" .. tostring(#players) .. ")"
+        end
+        if playersVal and playersVal.Parent then
+            playersVal.Text = string.format("%d/%d", #players, Players.MaxPlayers)
+        end
+
+        for i, player in ipairs(players) do
+            local row = Draw.Box("Frame", {
+                Name = player.Name,
+                Size = UDim2.new(1, -6, 0, 36),
+                BackgroundTransparency = 0.55,
+                LayoutOrder = (player == LocalPlayer) and 0 or i,
+                Parent = listScroll,
+            }, "Element", "Outline", 8, 1)
+
+            local pAvatar = Draw.Box("ImageLabel", {
+                AnchorPoint = Vector2.new(0, 0.5),
+                Position = UDim2.new(0, 6, 0.5, 0),
+                Size = UDim2.fromOffset(26, 26),
+                Parent = row,
+            }, "PanelHeader", "Outline", UDim.new(1, 0), 1)
+
+            task.spawn(function()
+                local ok, img = pcall(Players.GetUserThumbnailAsync, Players, player.UserId, Enum.ThumbnailType.HeadShot, Enum.ThumbnailSize.Size100x100)
+                if ok and img and pAvatar.Parent then
+                    pAvatar.Image = img
+                end
+            end)
+
+            Draw.Text({
+                Text = player.DisplayName,
+                Position = UDim2.fromOffset(38, 4),
+                Size = UDim2.new(1, -110, 0, 16),
+                TextTruncate = Enum.TextTruncate.AtEnd,
+                TextXAlignment = Enum.TextXAlignment.Left,
+                Parent = row,
+            }, "Body", 12, "SidebarText")
+
+            Draw.Text({
+                Text = "@" .. player.Name,
+                Position = UDim2.fromOffset(38, 19),
+                Size = UDim2.new(1, -110, 0, 14),
+                TextTruncate = Enum.TextTruncate.AtEnd,
+                TextXAlignment = Enum.TextXAlignment.Left,
+                Parent = row,
+            }, "Desc", 10, "SidebarMuted")
+
+            if player == LocalPlayer then
+                local mePill = Draw.Box("Frame", {
+                    AnchorPoint = Vector2.new(1, 0.5),
+                    Position = UDim2.new(1, -8, 0.5, 0),
+                    Size = UDim2.fromOffset(32, 18),
+                    Parent = row,
+                }, "Accent", nil, 4)
+                Draw.Text({
+                    Text = "YOU",
+                    Size = UDim2.fromScale(1, 1),
+                    TextXAlignment = Enum.TextXAlignment.Center,
+                    Parent = mePill,
+                }, "Logo", 10, "White")
+            end
+        end
+    end
+
+    populatePlayers()
+
+    local playerAdded = Players.PlayerAdded:Connect(populatePlayers)
+    local playerRemoving = Players.PlayerRemoving:Connect(populatePlayers)
+
+    local active = true
+    task.spawn(function()
+        while active and card.Parent do
+            if fpsVal and fpsVal.Parent then
+                fpsVal.Text = string.format("%d FPS", math.floor(State.Fps + 0.5))
+            end
+            if pingVal and pingVal.Parent then
+                local ping = Util.GetPing()
+                pingVal.Text = string.format("%d ms", ping or 0)
+            end
+            task.wait(0.5)
+        end
+    end)
+
+    Popup.Open(card, scale, nil, function()
+        active = false
+        playerAdded:Disconnect()
+        playerRemoving:Disconnect()
+    end)
+end
 
     -- Profile Card (ชื่อเรา)
     local profBox = Draw.Box("Frame", {
@@ -4698,12 +4939,10 @@ function Watermark.Update()
     if not Watermark.Frame or not Watermark.Frame.Visible then
         return
     end
-    local ok, ping = pcall(function()
-        return Stats.Network.ServerStatsItem["Data Ping"]:GetValue()
-    end)
+    local ping = Util.GetPing()
     local elapsed = math.floor(os.clock() - State.StartTime)
     Watermark.Stats.Fps.Text = string.format("FPS %d", math.floor(State.Fps + 0.5))
-    Watermark.Stats.Ping.Text = ok and string.format("PING %dms", math.floor(ping + 0.5)) or "PING --"
+    Watermark.Stats.Ping.Text = string.format("PING %dms", ping or 0)
     Watermark.Stats.Time.Text = string.format("%s %02d:%02d", Lang.Get("Session"), math.floor(elapsed / 60) % 100, elapsed % 60)
 end
 
