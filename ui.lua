@@ -1,4 +1,4 @@
--- Pattom UI · standalone build 2026-10-10
+﻿-- Pattom UI Â· standalone build 2026-10-10
 local TweenService = game:GetService("TweenService")
 local UserInputService = game:GetService("UserInputService")
 local RunService = game:GetService("RunService")
@@ -40,7 +40,7 @@ local Config = {
         Source = "https://raw.githubusercontent.com/google/fonts/main/ofl/kanit/Kanit-%s.ttf",
         Weights = { [400] = "Regular", [500] = "Medium", [600] = "SemiBold" },
     },
-    -- ไทย: glyph ไทยเล็กกว่าละติน ต้องขยายให้อ่านสบาย
+    -- à¹„à¸—à¸¢: glyph à¹„à¸—à¸¢à¹€à¸¥à¹‡à¸à¸à¸§à¹ˆà¸²à¸¥à¸°à¸•à¸´à¸™ à¸•à¹‰à¸­à¸‡à¸‚à¸¢à¸²à¸¢à¹ƒà¸«à¹‰à¸­à¹ˆà¸²à¸™à¸ªà¸šà¸²à¸¢
     ThaiSizeBonus = { Body = 2, Desc = 2, Display = 1, Strong = 1 },
     Text = { Title = 26, Header = 22, Group = 16, Label = 15, Desc = 13, Small = 12, Button = 15, Watermark = 13, Section = 13 },
     Window = {
@@ -90,7 +90,7 @@ local function rgb(hex)
     return Color3.fromRGB(tonumber(hex:sub(1, 2), 16), tonumber(hex:sub(3, 4), 16), tonumber(hex:sub(5, 6), 16))
 end
 
---@param spec ตารางสี hex ของธีม ใส่ Particle = { glyph, ตกลง?, hex } สำหรับละอองพื้นหลัง
+--@param spec à¸•à¸²à¸£à¸²à¸‡à¸ªà¸µ hex à¸‚à¸­à¸‡à¸˜à¸µà¸¡ à¹ƒà¸ªà¹ˆ Particle = { glyph, à¸•à¸à¸¥à¸‡?, hex } à¸ªà¸³à¸«à¸£à¸±à¸šà¸¥à¸°à¸­à¸­à¸‡à¸žà¸·à¹‰à¸™à¸«à¸¥à¸±à¸‡
 local function Palette(spec)
     local palette = {}
     for token, value in pairs(spec) do
@@ -100,7 +100,7 @@ local function Palette(spec)
             local glyphs = type(value[1]) == "table" and value[1] or { value[1] }
             palette.ParticleGlyph, palette.ParticleGlyphs, palette.ParticleFall, palette.ParticleColor = glyphs[1], glyphs, value[2], rgb(value[3])
         elseif token == "Decor" then
-            palette.Decor, palette.DecorGlyph, palette.DecorColor = value[1], value[2] or "✦", rgb(value[3] or "FFFFFF")
+            palette.Decor, palette.DecorGlyph, palette.DecorColor = value[1], value[2] or "âœ¦", rgb(value[3] or "FFFFFF")
         elseif type(value) == "string" then
             palette[token] = rgb(value)
         else
@@ -116,9 +116,9 @@ local Themes = {
         SidebarText = "EAF6FF", SidebarMuted = "8EA9C7", TabActive = "2D7DFF", TabActiveText = "FFFFFF",
         Panel = "0B142A", PanelHeader = "102044", Element = "122951", Hover = "1A3A70",
         Outline = "071022", Shadow = "020611", Text = "F2F8FF", SubText = "B3C8E6", Muted = "718AAF", Track = "1F3E70",
-        Cloud = "6AA9FF", CloudAlpha = 0.22, Accent = "2D7DFF", AccentDark = "1552BF", Grass = "42B9FF", GrassDark = "1E72C8", Brick = "214D91", BrickDark = "102754", Decor = { "Lightning", "⚡", "8ED8FF" },
+        Cloud = "6AA9FF", CloudAlpha = 0.22, Accent = "2D7DFF", AccentDark = "1552BF", Grass = "42B9FF", GrassDark = "1E72C8", Brick = "214D91", BrickDark = "102754", Decor = { "Lightning", "âš¡", "8ED8FF" },
         Glow = "42B9FF", Fog = "315DB7", Logo = "logo",
-        Particle = { { "⚡", "ϟ", "✦" }, false, "8ED8FF" },
+        Particle = { { "âš¡", "ÏŸ", "âœ¦" }, false, "8ED8FF" },
     }),
     Order = { "Pattom", "Zeus" },
     Pattom = Palette({
@@ -130,9 +130,9 @@ local Themes = {
         Grass = "FF9A3C", GrassDark = "C4620F", Brick = "3A1E0E", BrickDark = "1A0D05",
         Good = "FF8A1F", GoodDark = "C4560A", Blue = "FFB45C", BlueDark = "C97A22",
         Coin = "FFC24D", CoinDark = "C98A1E", Danger = "E5392B", DangerDark = "A5241A", Ink = "1A0C03",
-        Decor = { "Stars", "✦", "FFA24D" }, Glow = "FF8A2B", Fog = "7A3A10",
+        Decor = { "Stars", "âœ¦", "FFA24D" }, Glow = "FF8A2B", Fog = "7A3A10",
         Logo = "logo", LogoAspect = 1.5,
-        Particle = { { "✦", "•", "✧" }, false, "FF9A3C" },
+        Particle = { { "âœ¦", "â€¢", "âœ§" }, false, "FF9A3C" },
     }),
     Overworld = Palette({
         Backdrop = "C4D6EC", BackdropAlt = "E2E9F2", Topbar = "7092CC", Sidebar = "96563E", SidebarAlt = "804834",
@@ -140,16 +140,16 @@ local Themes = {
         Panel = "FAF6EE", PanelHeader = "F1E7D4", Element = "FFFCF6", Hover = "EEE2CA",
         Outline = "3E384A", Shadow = "7880A0", Text = "3A3028", SubText = "76685A", Muted = "A09484", Track = "DED4C4",
         Cloud = "FFFFFF", CloudAlpha = 0.25, Accent = "D64C40", AccentDark = "A0342C", Grass = "74B45C", GrassDark = "4E8840", Brick = "A46042", BrickDark = "683A28", Decor = { "Clouds" },
-        Particle = { "✦", false, "F6D878" },
+        Particle = { "âœ¦", false, "F6D878" },
     }),
     Halloween = Palette({
         Backdrop = "1A1226", BackdropAlt = "2A1838", Topbar = "2B1A3E", Sidebar = "3A2150", SidebarAlt = "2C1840",
         SidebarText = "FFF1E2", SidebarMuted = "C9A9D8", TabActive = "F28A2E", TabActiveText = "1E1024",
         Panel = "241830", PanelHeader = "301F40", Element = "2E2140", Hover = "3C2A52",
         Outline = "0B0610", Shadow = "0B0610", Text = "FFF1E2", SubText = "D7BFD9", Muted = "9C85A8", Track = "4A3460",
-        Cloud = "B98CFF", CloudAlpha = 0.85, Accent = "F28A2E", AccentDark = "B85E14", Grass = "7A3FA8", GrassDark = "4E2470", Brick = "4A2E60", BrickDark = "1E1028", Decor = { "Halloween", "✦", "FFB347" },
+        Cloud = "B98CFF", CloudAlpha = 0.85, Accent = "F28A2E", AccentDark = "B85E14", Grass = "7A3FA8", GrassDark = "4E2470", Brick = "4A2E60", BrickDark = "1E1028", Decor = { "Halloween", "âœ¦", "FFB347" },
         Glow = "F28A2E", Fog = "8E5CD0", Logo = "logo_halloween",
-        Particle = { { "✦", "✦", "•", "✧" }, false, "FFB347" },
+        Particle = { { "âœ¦", "âœ¦", "â€¢", "âœ§" }, false, "FFB347" },
     }),
     Light = Palette({
         Backdrop = "F2EEE6", BackdropAlt = "FAF8F3", Topbar = "EDE4D4", TopbarText = "4A3F35", Sidebar = "EAE2D4", SidebarAlt = "DDD3C2",
@@ -157,47 +157,47 @@ local Themes = {
         Panel = "FFFFFF", PanelHeader = "F6F1E8", Element = "FBF9F5", Hover = "F0E8DA",
         Outline = "4A4458", Shadow = "CFC7BA", Text = "3A3028", SubText = "7C6E60", Muted = "ABA092", Track = "E6DED2",
         Cloud = "C8D8EC", CloudAlpha = 0, Accent = "D64C40", AccentDark = "A0342C", Grass = "8CC47A", GrassDark = "62A052", Brick = "D8B48E", BrickDark = "AE8A64", Decor = { "Clouds" },
-        Particle = { "•", false, "D64C40" },
+        Particle = { "â€¢", false, "D64C40" },
     }),
     Dark = Palette({
         Backdrop = "1E1F26", BackdropAlt = "25262F", Topbar = "17181E", Sidebar = "22232B", SidebarAlt = "1B1C22",
         SidebarText = "E8E6F0", SidebarMuted = "8D8A9C", TabActive = "D64C40", TabActiveText = "FFFFFF",
         Panel = "2A2B34", PanelHeader = "31323C", Element = "353743", Hover = "3E404D",
         Outline = "0E0E12", Shadow = "0E0E12", Text = "ECEAF4", SubText = "A9A6B8", Muted = "7B788C", Track = "454756",
-        Cloud = "FFFFFF", CloudAlpha = 0.9, Accent = "E0584C", AccentDark = "A83A30", Grass = "5A5C6E", GrassDark = "3E3F4C", Brick = "2E2F39", BrickDark = "17181E", Decor = { "Stars", "✦", "F0C448" },
-        Particle = { "✦", false, "F0C448" },
+        Cloud = "FFFFFF", CloudAlpha = 0.9, Accent = "E0584C", AccentDark = "A83A30", Grass = "5A5C6E", GrassDark = "3E3F4C", Brick = "2E2F39", BrickDark = "17181E", Decor = { "Stars", "âœ¦", "F0C448" },
+        Particle = { "âœ¦", false, "F0C448" },
     }),
     Underground = Palette({
         Backdrop = "141A36", BackdropAlt = "1E2750", Topbar = "0E1330", Sidebar = "22327A", SidebarAlt = "1A2762",
         SidebarText = "ECF0FF", SidebarMuted = "98A8E0", TabActive = "F0C448", TabActiveText = "1E1B2E",
         Panel = "1F2749", PanelHeader = "27305A", Element = "2C3666", Hover = "36417A",
         Outline = "05060F", Shadow = "05060F", Text = "F2F4FF", SubText = "AEB6E2", Muted = "7C86B8", Track = "3C4780",
-        Cloud = "96AAFF", CloudAlpha = 0.8, Accent = "5B8CF0", AccentDark = "3A62C0", Grass = "3A5BC8", GrassDark = "2A469E", Brick = "2F4AA8", BrickDark = "142058", Decor = { "Stars", "✦", "8FA8FF" },
-        Particle = { "✦", false, "8FA8FF" },
+        Cloud = "96AAFF", CloudAlpha = 0.8, Accent = "5B8CF0", AccentDark = "3A62C0", Grass = "3A5BC8", GrassDark = "2A469E", Brick = "2F4AA8", BrickDark = "142058", Decor = { "Stars", "âœ¦", "8FA8FF" },
+        Particle = { "âœ¦", false, "8FA8FF" },
     }),
     Castle = Palette({
         Backdrop = "1E1818", BackdropAlt = "33201C", Topbar = "150F0F", Sidebar = "4A4040", SidebarAlt = "3A3232",
         SidebarText = "FFF1E6", SidebarMuted = "C8B0A4", TabActive = "E8703A", TabActiveText = "FFFFFF",
         Panel = "2B2323", PanelHeader = "352B2B", Element = "3D3232", Hover = "4A3D3D",
         Outline = "0A0707", Shadow = "0A0707", Text = "FFF1E6", SubText = "D9BFB0", Muted = "9F8579", Track = "524242",
-        Cloud = "FF8A50", CloudAlpha = 0.85, Accent = "E8703A", AccentDark = "B04A1E", Grass = "FF7A2E", GrassDark = "C8481A", Brick = "5A5050", BrickDark = "2A2222", Decor = { "Stars", "•", "FF8A3C" },
-        Particle = { "•", false, "FF8A3C" },
+        Cloud = "FF8A50", CloudAlpha = 0.85, Accent = "E8703A", AccentDark = "B04A1E", Grass = "FF7A2E", GrassDark = "C8481A", Brick = "5A5050", BrickDark = "2A2222", Decor = { "Stars", "â€¢", "FF8A3C" },
+        Particle = { "â€¢", false, "FF8A3C" },
     }),
     ["Ghost House"] = Palette({
         Backdrop = "1C2226", BackdropAlt = "232B30", Topbar = "151A1E", Sidebar = "2C3A3A", SidebarAlt = "223030",
         SidebarText = "E6F2EE", SidebarMuted = "8FB0A8", TabActive = "B8E0D2", TabActiveText = "1C2126",
         Panel = "242C31", PanelHeader = "2B353B", Element = "303B42", Hover = "39454D",
         Outline = "0B0E10", Shadow = "0B0E10", Text = "EAF4F1", SubText = "A3BDB6", Muted = "71898A", Track = "3E4B52",
-        Cloud = "CFF5E7", CloudAlpha = 0.85, Accent = "4FB89C", AccentDark = "348A72", Grass = "6B5040", GrassDark = "4A362A", Brick = "5A4334", BrickDark = "2E2219", Decor = { "Stars", "•", "B8F0DC" },
-        Particle = { "•", false, "9FE8D0" },
+        Cloud = "CFF5E7", CloudAlpha = 0.85, Accent = "4FB89C", AccentDark = "348A72", Grass = "6B5040", GrassDark = "4A362A", Brick = "5A4334", BrickDark = "2E2219", Decor = { "Stars", "â€¢", "B8F0DC" },
+        Particle = { "â€¢", false, "9FE8D0" },
     }),
     ["Star Road"] = Palette({
         Backdrop = "1C1236", BackdropAlt = "2D1C54", Topbar = "130B28", Sidebar = "3B2475", SidebarAlt = "2D1A5C",
         SidebarText = "FFF7FF", SidebarMuted = "CDB9F2", TabActive = "F0C448", TabActiveText = "26144A",
         Panel = "251749", PanelHeader = "2E1D5A", Element = "34225F", Hover = "412A72",
         Outline = "07030F", Shadow = "07030F", Text = "FFF7FF", SubText = "CDB9F2", Muted = "9580C4", Track = "4A3480",
-        Cloud = "FFE680", CloudAlpha = 0.8, Accent = "E85CA8", AccentDark = "B03C7E", Grass = "F0C448", GrassDark = "BA8C28", Brick = "5A38A8", BrickDark = "2A1858", Decor = { "Stars", "★", "FFD95A" },
-        Particle = { "★", false, "FFD95A" },
+        Cloud = "FFE680", CloudAlpha = 0.8, Accent = "E85CA8", AccentDark = "B03C7E", Grass = "F0C448", GrassDark = "BA8C28", Brick = "5A38A8", BrickDark = "2A1858", Decor = { "Stars", "â˜…", "FFD95A" },
+        Particle = { "â˜…", false, "FFD95A" },
     }),
     Desert = Palette({
         Backdrop = "E8DABD", BackdropAlt = "F4EBD8", Topbar = "C99A62", Sidebar = "B07E4E", SidebarAlt = "966A40",
@@ -205,7 +205,7 @@ local Themes = {
         Panel = "FFF9EE", PanelHeader = "F4E6CC", Element = "FFFCF6", Hover = "F0DFC0",
         Outline = "5A4632", Shadow = "C2A07A", Text = "4A3828", SubText = "86705A", Muted = "B09A80", Track = "E6D6BC",
         Cloud = "FFFFFF", CloudAlpha = 0.3, Accent = "C8643A", AccentDark = "964626", Grass = "EACB8C", GrassDark = "C9A866", Brick = "C08A5A", BrickDark = "8A5E38", Decor = { "Clouds" },
-        Particle = { "•", false, "C9964E" },
+        Particle = { "â€¢", false, "C9964E" },
     }),
     ["Ice Land"] = Palette({
         Backdrop = "D8E8F4", BackdropAlt = "EDF4FA", Topbar = "86B0D2", Sidebar = "6A96BA", SidebarAlt = "5A82A4",
@@ -213,15 +213,15 @@ local Themes = {
         Panel = "F8FCFF", PanelHeader = "E6F0F8", Element = "FFFFFF", Hover = "DCEAF5",
         Outline = "3E4F63", Shadow = "A6BACE", Text = "2E3D4D", SubText = "62788E", Muted = "95A8BA", Track = "D4E1EC",
         Cloud = "FFFFFF", CloudAlpha = 0.2, Accent = "3A8AC8", AccentDark = "2A6698", Grass = "FFFFFF", GrassDark = "CFE3F2", Brick = "7FA8CC", BrickDark = "4F7699", Decor = { "Clouds" },
-        Particle = { "❄", true, "FFFFFF" },
+        Particle = { "â„", true, "FFFFFF" },
     }),
     Jungle = Palette({
         Backdrop = "1F2E23", BackdropAlt = "293C2D", Topbar = "17231A", Sidebar = "2F4A33", SidebarAlt = "253B29",
         SidebarText = "EEF7EA", SidebarMuted = "A3C29C", TabActive = "F0C84A", TabActiveText = "1F2A1F",
         Panel = "26382A", PanelHeader = "2E4332", Element = "334A37", Hover = "3D5641",
         Outline = "0C120D", Shadow = "0C120D", Text = "EEF6EA", SubText = "AFC6A8", Muted = "7E957A", Track = "445C47",
-        Cloud = "D8F5C8", CloudAlpha = 0.85, Accent = "E08A3A", AccentDark = "A86024", Grass = "5AAE4E", GrassDark = "3A7A34", Brick = "5A4A32", BrickDark = "30261A", Decor = { "Stars", "•", "D8F07A" },
-        Particle = { "•", false, "D8F07A" },
+        Cloud = "D8F5C8", CloudAlpha = 0.85, Accent = "E08A3A", AccentDark = "A86024", Grass = "5AAE4E", GrassDark = "3A7A34", Brick = "5A4A32", BrickDark = "30261A", Decor = { "Stars", "â€¢", "D8F07A" },
+        Particle = { "â€¢", false, "D8F07A" },
     }),
     ["Sky World"] = Palette({
         Backdrop = "E6EEFC", BackdropAlt = "F6F9FF", Topbar = "A4BEEA", Sidebar = "8AA4D6", SidebarAlt = "7A92C4",
@@ -229,7 +229,7 @@ local Themes = {
         Panel = "FFFFFF", PanelHeader = "EEF3FC", Element = "FFFFFF", Hover = "E4ECFA",
         Outline = "46506A", Shadow = "B6C2DA", Text = "333C52", SubText = "6A7590", Muted = "9AA4BC", Track = "DCE3F0",
         Cloud = "FFFFFF", CloudAlpha = 0.1, Accent = "4A6FB5", AccentDark = "34528A", Grass = "FFFFFF", GrassDark = "DCE6F8", Brick = "C4D4F0", BrickDark = "98AED8", Decor = { "Clouds" },
-        Particle = { "✦", false, "FFFFFF" },
+        Particle = { "âœ¦", false, "FFFFFF" },
     }),
     Shared = Palette({
         Accent = "D64C40", AccentDark = "A0342C", OnAccent = "FFFFFF", Danger = "D64C40", DangerDark = "A0342C",
@@ -511,7 +511,7 @@ function Util.EnsureFolder(path)
     return true
 end
 
--- เก็บ UTF-8 ไว้ (ชื่อไทยได้) ตัดแค่อักขระที่ path ไฟล์ไม่รับ
+-- à¹€à¸à¹‡à¸š UTF-8 à¹„à¸§à¹‰ (à¸Šà¸·à¹ˆà¸­à¹„à¸—à¸¢à¹„à¸”à¹‰) à¸•à¸±à¸”à¹à¸„à¹ˆà¸­à¸±à¸à¸‚à¸£à¸°à¸—à¸µà¹ˆ path à¹„à¸Ÿà¸¥à¹Œà¹„à¸¡à¹ˆà¸£à¸±à¸š
 function Util.Sanitize(name)
     local clean = tostring(name):gsub('[%c/\\:%*%?"<>|]', ""):gsub("^%s+", ""):gsub("%s+$", "")
     return clean ~= "" and clean or "config"
@@ -585,7 +585,7 @@ function Anim.Pop(scale, from)
     return Anim.Tween(scale, { Scale = 1 }, Config.Tween.Pop, "Back")
 end
 
---@param rise จำนวน px ที่เด้งขึ้น (กล่องโดนโขกแบบในเกม)
+--@param rise à¸ˆà¸³à¸™à¸§à¸™ px à¸—à¸µà¹ˆà¹€à¸”à¹‰à¸‡à¸‚à¸¶à¹‰à¸™ (à¸à¸¥à¹ˆà¸­à¸‡à¹‚à¸”à¸™à¹‚à¸‚à¸à¹à¸šà¸šà¹ƒà¸™à¹€à¸à¸¡)
 function Anim.Bump(frame, rise)
     if frame:GetAttribute("Bumping") then
         return
@@ -630,7 +630,7 @@ function Anim.Fade(root, alpha, duration)
     end
 end
 
---@param origin UDim2 จุดที่เหรียญเด้งออก ภายใน parent
+--@param origin UDim2 à¸ˆà¸¸à¸”à¸—à¸µà¹ˆà¹€à¸«à¸£à¸µà¸¢à¸à¹€à¸”à¹‰à¸‡à¸­à¸­à¸ à¸ à¸²à¸¢à¹ƒà¸™ parent
 function Anim.CoinPop(parent, origin, size)
     local coin = Sprite.New(parent, "coin", size or 20)
     coin.AnchorPoint = Vector2.new(0.5, 1)
@@ -672,7 +672,7 @@ function Theme.Apply(name)
     end
 end
 
--- registry ที่ key เป็น Instance ต้องเป็น strong table จึงล้างของที่ถูก Destroy ออกเองเป็นรอบ
+-- registry à¸—à¸µà¹ˆ key à¹€à¸›à¹‡à¸™ Instance à¸•à¹‰à¸­à¸‡à¹€à¸›à¹‡à¸™ strong table à¸ˆà¸¶à¸‡à¸¥à¹‰à¸²à¸‡à¸‚à¸­à¸‡à¸—à¸µà¹ˆà¸–à¸¹à¸ Destroy à¸­à¸­à¸à¹€à¸­à¸‡à¹€à¸›à¹‡à¸™à¸£à¸­à¸š
 function Theme.Prune()
     local root = State.Gui
     if not root then
@@ -716,65 +716,65 @@ function Theme.OnRender(owner, render)
 end
 
 Lang.Strings = {
-    Search = { EN = "Search...", TH = "ค้นหา..." },
-    Confirm = { EN = "Click again to confirm", TH = "กดอีกครั้งเพื่อยืนยัน" },
-    None = { EN = "None", TH = "ไม่มี" },
-    NoResults = { EN = "No matches", TH = "ไม่พบรายการ" },
-    Settings = { EN = "Settings", TH = "ตั้งค่า" },
-    SettingsDesc = { EN = "Interface, language and configs", TH = "หน้าตา ภาษา และคอนฟิก" },
-    Interface = { EN = "Interface", TH = "หน้าตา" },
-    Language = { EN = "Language", TH = "ภาษา" },
-    ThemeName = { EN = "Theme", TH = "ธีม" },
-    Scale = { EN = "UI scale", TH = "ขนาด UI" },
-    MenuKey = { EN = "Menu key", TH = "ปุ่มเปิดเมนู" },
-    Watermark = { EN = "Watermark", TH = "วอเตอร์มาร์ก" },
-    WatermarkDesc = { EN = "Hub name, FPS, ping and play time", TH = "ชื่อฮับ FPS ปิง และเวลาที่เล่น" },
-    FloatButton = { EN = "Mobile button", TH = "ปุ่มลอยมือถือ" },
-    FloatDesc = { EN = "Floating block that opens the menu", TH = "กล่อง ? ลอยสำหรับเปิดปิดเมนู" },
-    Configs = { EN = "Configs", TH = "คอนฟิก" },
-    ConfigName = { EN = "Config name", TH = "ชื่อคอนฟิก" },
-    SavedConfigs = { EN = "Saved configs", TH = "คอนฟิกที่บันทึกไว้" },
-    Save = { EN = "Save", TH = "บันทึก" },
-    Load = { EN = "Load", TH = "โหลด" },
-    Delete = { EN = "Delete", TH = "ลบ" },
-    Refresh = { EN = "Refresh", TH = "รีเฟรช" },
-    SetAutoload = { EN = "Load on start", TH = "โหลดอัตโนมัติ" },
-    Autoload = { EN = "Autoload: %s", TH = "โหลดอัตโนมัติ: %s" },
-    PickConfig = { EN = "Type or select a config name first", TH = "พิมพ์หรือเลือกชื่อคอนฟิกก่อน" },
-    NoFileApi = { EN = "This executor cannot save files", TH = "executor นี้บันทึกไฟล์ไม่ได้" },
-    ConfigMissing = { EN = "Config not found", TH = "ไม่พบคอนฟิก" },
-    ConfigBroken = { EN = "Config file is damaged", TH = "ไฟล์คอนฟิกเสีย" },
-    About = { EN = "About", TH = "เกี่ยวกับ" },
-    Unload = { EN = "Unload hub", TH = "ปิดสคริปต์" },
-    Rejoin = { EN = "Rejoin", TH = "เข้าเซิร์ฟใหม่" },
-    KeyTitle = { EN = "ENTER KEY", TH = "ใส่คีย์" },
-    KeyNote = { EN = "Paste your key to start the adventure.", TH = "วางคีย์เพื่อเริ่มผจญภัย" },
-    KeyPlaceholder = { EN = "Paste key here", TH = "วางคีย์ที่นี่" },
-    GetKey = { EN = "Get key", TH = "รับคีย์" },
-    CheckKey = { EN = "Check key", TH = "ตรวจคีย์" },
-    KeyCopied = { EN = "Key link copied", TH = "คัดลอกลิงก์รับคีย์แล้ว" },
-    KeyChecking = { EN = "Checking...", TH = "กำลังตรวจ..." },
-    KeyInvalid = { EN = "Invalid key", TH = "คีย์ไม่ถูกต้อง" },
-    KeyValid = { EN = "Key accepted", TH = "คีย์ถูกต้อง" },
+    Search = { EN = "Search...", TH = "à¸„à¹‰à¸™à¸«à¸²..." },
+    Confirm = { EN = "Click again to confirm", TH = "à¸à¸”à¸­à¸µà¸à¸„à¸£à¸±à¹‰à¸‡à¹€à¸žà¸·à¹ˆà¸­à¸¢à¸·à¸™à¸¢à¸±à¸™" },
+    None = { EN = "None", TH = "à¹„à¸¡à¹ˆà¸¡à¸µ" },
+    NoResults = { EN = "No matches", TH = "à¹„à¸¡à¹ˆà¸žà¸šà¸£à¸²à¸¢à¸à¸²à¸£" },
+    Settings = { EN = "Settings", TH = "à¸•à¸±à¹‰à¸‡à¸„à¹ˆà¸²" },
+    SettingsDesc = { EN = "Interface, language and configs", TH = "à¸«à¸™à¹‰à¸²à¸•à¸² à¸ à¸²à¸©à¸² à¹à¸¥à¸°à¸„à¸­à¸™à¸Ÿà¸´à¸" },
+    Interface = { EN = "Interface", TH = "à¸«à¸™à¹‰à¸²à¸•à¸²" },
+    Language = { EN = "Language", TH = "à¸ à¸²à¸©à¸²" },
+    ThemeName = { EN = "Theme", TH = "à¸˜à¸µà¸¡" },
+    Scale = { EN = "UI scale", TH = "à¸‚à¸™à¸²à¸” UI" },
+    MenuKey = { EN = "Menu key", TH = "à¸›à¸¸à¹ˆà¸¡à¹€à¸›à¸´à¸”à¹€à¸¡à¸™à¸¹" },
+    Watermark = { EN = "Watermark", TH = "à¸§à¸­à¹€à¸•à¸­à¸£à¹Œà¸¡à¸²à¸£à¹Œà¸" },
+    WatermarkDesc = { EN = "Hub name, FPS, ping and play time", TH = "à¸Šà¸·à¹ˆà¸­à¸®à¸±à¸š FPS à¸›à¸´à¸‡ à¹à¸¥à¸°à¹€à¸§à¸¥à¸²à¸—à¸µà¹ˆà¹€à¸¥à¹ˆà¸™" },
+    FloatButton = { EN = "Mobile button", TH = "à¸›à¸¸à¹ˆà¸¡à¸¥à¸­à¸¢à¸¡à¸·à¸­à¸–à¸·à¸­" },
+    FloatDesc = { EN = "Floating block that opens the menu", TH = "à¸à¸¥à¹ˆà¸­à¸‡ ? à¸¥à¸­à¸¢à¸ªà¸³à¸«à¸£à¸±à¸šà¹€à¸›à¸´à¸”à¸›à¸´à¸”à¹€à¸¡à¸™à¸¹" },
+    Configs = { EN = "Configs", TH = "à¸„à¸­à¸™à¸Ÿà¸´à¸" },
+    ConfigName = { EN = "Config name", TH = "à¸Šà¸·à¹ˆà¸­à¸„à¸­à¸™à¸Ÿà¸´à¸" },
+    SavedConfigs = { EN = "Saved configs", TH = "à¸„à¸­à¸™à¸Ÿà¸´à¸à¸—à¸µà¹ˆà¸šà¸±à¸™à¸—à¸¶à¸à¹„à¸§à¹‰" },
+    Save = { EN = "Save", TH = "à¸šà¸±à¸™à¸—à¸¶à¸" },
+    Load = { EN = "Load", TH = "à¹‚à¸«à¸¥à¸”" },
+    Delete = { EN = "Delete", TH = "à¸¥à¸š" },
+    Refresh = { EN = "Refresh", TH = "à¸£à¸µà¹€à¸Ÿà¸£à¸Š" },
+    SetAutoload = { EN = "Load on start", TH = "à¹‚à¸«à¸¥à¸”à¸­à¸±à¸•à¹‚à¸™à¸¡à¸±à¸•à¸´" },
+    Autoload = { EN = "Autoload: %s", TH = "à¹‚à¸«à¸¥à¸”à¸­à¸±à¸•à¹‚à¸™à¸¡à¸±à¸•à¸´: %s" },
+    PickConfig = { EN = "Type or select a config name first", TH = "à¸žà¸´à¸¡à¸žà¹Œà¸«à¸£à¸·à¸­à¹€à¸¥à¸·à¸­à¸à¸Šà¸·à¹ˆà¸­à¸„à¸­à¸™à¸Ÿà¸´à¸à¸à¹ˆà¸­à¸™" },
+    NoFileApi = { EN = "This executor cannot save files", TH = "executor à¸™à¸µà¹‰à¸šà¸±à¸™à¸—à¸¶à¸à¹„à¸Ÿà¸¥à¹Œà¹„à¸¡à¹ˆà¹„à¸”à¹‰" },
+    ConfigMissing = { EN = "Config not found", TH = "à¹„à¸¡à¹ˆà¸žà¸šà¸„à¸­à¸™à¸Ÿà¸´à¸" },
+    ConfigBroken = { EN = "Config file is damaged", TH = "à¹„à¸Ÿà¸¥à¹Œà¸„à¸­à¸™à¸Ÿà¸´à¸à¹€à¸ªà¸µà¸¢" },
+    About = { EN = "About", TH = "à¹€à¸à¸µà¹ˆà¸¢à¸§à¸à¸±à¸š" },
+    Unload = { EN = "Unload hub", TH = "à¸›à¸´à¸”à¸ªà¸„à¸£à¸´à¸›à¸•à¹Œ" },
+    Rejoin = { EN = "Rejoin", TH = "à¹€à¸‚à¹‰à¸²à¹€à¸‹à¸´à¸£à¹Œà¸Ÿà¹ƒà¸«à¸¡à¹ˆ" },
+    KeyTitle = { EN = "ENTER KEY", TH = "à¹ƒà¸ªà¹ˆà¸„à¸µà¸¢à¹Œ" },
+    KeyNote = { EN = "Paste your key to start the adventure.", TH = "à¸§à¸²à¸‡à¸„à¸µà¸¢à¹Œà¹€à¸žà¸·à¹ˆà¸­à¹€à¸£à¸´à¹ˆà¸¡à¸œà¸ˆà¸à¸ à¸±à¸¢" },
+    KeyPlaceholder = { EN = "Paste key here", TH = "à¸§à¸²à¸‡à¸„à¸µà¸¢à¹Œà¸—à¸µà¹ˆà¸™à¸µà¹ˆ" },
+    GetKey = { EN = "Get key", TH = "à¸£à¸±à¸šà¸„à¸µà¸¢à¹Œ" },
+    CheckKey = { EN = "Check key", TH = "à¸•à¸£à¸§à¸ˆà¸„à¸µà¸¢à¹Œ" },
+    KeyCopied = { EN = "Key link copied", TH = "à¸„à¸±à¸”à¸¥à¸­à¸à¸¥à¸´à¸‡à¸à¹Œà¸£à¸±à¸šà¸„à¸µà¸¢à¹Œà¹à¸¥à¹‰à¸§" },
+    KeyChecking = { EN = "Checking...", TH = "à¸à¸³à¸¥à¸±à¸‡à¸•à¸£à¸§à¸ˆ..." },
+    KeyInvalid = { EN = "Invalid key", TH = "à¸„à¸µà¸¢à¹Œà¹„à¸¡à¹ˆà¸–à¸¹à¸à¸•à¹‰à¸­à¸‡" },
+    KeyValid = { EN = "Key accepted", TH = "à¸„à¸µà¸¢à¹Œà¸–à¸¹à¸à¸•à¹‰à¸­à¸‡" },
     IntroSteps = {
         EN = { "Warming up the warp pipe...", "Collecting coins...", "Building the castle...", "Let's-a go!" },
-        TH = { "กำลังอุ่นท่อวาร์ป...", "กำลังเก็บเหรียญ...", "กำลังสร้างปราสาท...", "ลุยกันเลย!" },
+        TH = { "à¸à¸³à¸¥à¸±à¸‡à¸­à¸¸à¹ˆà¸™à¸—à¹ˆà¸­à¸§à¸²à¸£à¹Œà¸›...", "à¸à¸³à¸¥à¸±à¸‡à¹€à¸à¹‡à¸šà¹€à¸«à¸£à¸µà¸¢à¸...", "à¸à¸³à¸¥à¸±à¸‡à¸ªà¸£à¹‰à¸²à¸‡à¸›à¸£à¸²à¸ªà¸²à¸—...", "à¸¥à¸¸à¸¢à¸à¸±à¸™à¹€à¸¥à¸¢!" },
     },
-    Ready = { EN = "Ready. Press %s to toggle the menu.", TH = "พร้อมแล้ว กด %s เพื่อเปิดปิดเมนู" },
-    ReadyTouch = { EN = "Ready. Tap the ? block to toggle the menu.", TH = "พร้อมแล้ว แตะกล่อง ? เพื่อเปิดปิดเมนู" },
-    Hidden = { EN = "Menu hidden. Press %s to open.", TH = "ซ่อนเมนูแล้ว กด %s เพื่อเปิด" },
-    Session = { EN = "TIME", TH = "เวลา" },
-    Empty = { EN = "Nothing here yet", TH = "ยังไม่มีรายการ" },
-    Particles = { EN = "Ambient particles", TH = "ละอองตกแต่ง" },
-    ParticlesDesc = { EN = "Floating sparkles behind the menu", TH = "ประกายลอยด้านหลังเมนู" },
-    Device = { EN = "Device: %s", TH = "อุปกรณ์: %s" },
+    Ready = { EN = "Ready. Press %s to toggle the menu.", TH = "à¸žà¸£à¹‰à¸­à¸¡à¹à¸¥à¹‰à¸§ à¸à¸” %s à¹€à¸žà¸·à¹ˆà¸­à¹€à¸›à¸´à¸”à¸›à¸´à¸”à¹€à¸¡à¸™à¸¹" },
+    ReadyTouch = { EN = "Ready. Tap the ? block to toggle the menu.", TH = "à¸žà¸£à¹‰à¸­à¸¡à¹à¸¥à¹‰à¸§ à¹à¸•à¸°à¸à¸¥à¹ˆà¸­à¸‡ ? à¹€à¸žà¸·à¹ˆà¸­à¹€à¸›à¸´à¸”à¸›à¸´à¸”à¹€à¸¡à¸™à¸¹" },
+    Hidden = { EN = "Menu hidden. Press %s to open.", TH = "à¸‹à¹ˆà¸­à¸™à¹€à¸¡à¸™à¸¹à¹à¸¥à¹‰à¸§ à¸à¸” %s à¹€à¸žà¸·à¹ˆà¸­à¹€à¸›à¸´à¸”" },
+    Session = { EN = "TIME", TH = "à¹€à¸§à¸¥à¸²" },
+    Empty = { EN = "Nothing here yet", TH = "à¸¢à¸±à¸‡à¹„à¸¡à¹ˆà¸¡à¸µà¸£à¸²à¸¢à¸à¸²à¸£" },
+    Particles = { EN = "Ambient particles", TH = "à¸¥à¸°à¸­à¸­à¸‡à¸•à¸à¹à¸•à¹ˆà¸‡" },
+    ParticlesDesc = { EN = "Floating sparkles behind the menu", TH = "à¸›à¸£à¸°à¸à¸²à¸¢à¸¥à¸­à¸¢à¸”à¹‰à¸²à¸™à¸«à¸¥à¸±à¸‡à¹€à¸¡à¸™à¸¹" },
+    Device = { EN = "Device: %s", TH = "à¸­à¸¸à¸›à¸à¸£à¸“à¹Œ: %s" },
 }
 
 function Lang.HasThai(text)
     return text:find("\224[\184\185]") ~= nil
 end
 
---@return string ตามภาษาปัจจุบัน รับ {EN,TH} หรือ "English · ไทย" หรือ string ธรรมดา
+--@return string à¸•à¸²à¸¡à¸ à¸²à¸©à¸²à¸›à¸±à¸ˆà¸ˆà¸¸à¸šà¸±à¸™ à¸£à¸±à¸š {EN,TH} à¸«à¸£à¸·à¸­ "English Â· à¹„à¸—à¸¢" à¸«à¸£à¸·à¸­ string à¸˜à¸£à¸£à¸¡à¸”à¸²
 function Lang.Resolve(spec)
     if type(spec) == "table" then
         return spec[State.Language] or spec.EN or spec.TH or ""
@@ -782,7 +782,7 @@ function Lang.Resolve(spec)
     if type(spec) ~= "string" then
         return spec == nil and "" or tostring(spec)
     end
-    local english, thai = spec:match("^(.-)%s+·%s+(.+)$")
+    local english, thai = spec:match("^(.-)%s+Â·%s+(.+)$")
     if english and Lang.HasThai(thai) then
         return State.Language == "TH" and thai or english
     end
@@ -804,7 +804,7 @@ function Lang.SearchText(spec)
     return tostring(spec or ""):lower()
 end
 
---@param transform ฟังก์ชันแปลงข้อความก่อนแสดง (เช่น string.upper) ไม่ใส่ก็ได้
+--@param transform à¸Ÿà¸±à¸‡à¸à¹Œà¸Šà¸±à¸™à¹à¸›à¸¥à¸‡à¸‚à¹‰à¸­à¸„à¸§à¸²à¸¡à¸à¹ˆà¸­à¸™à¹à¸ªà¸”à¸‡ (à¹€à¸Šà¹ˆà¸™ string.upper) à¹„à¸¡à¹ˆà¹ƒà¸ªà¹ˆà¸à¹‡à¹„à¸”à¹‰
 function Lang.Bind(inst, spec, property, transform)
     local binding = { Spec = spec, Property = property or "Text", Transform = transform }
     Lang.Bound[inst] = binding
@@ -850,7 +850,7 @@ Fonts.ThaiWeights = { Display = Enum.FontWeight.SemiBold, Body = Enum.FontWeight
 Fonts.ThaiFallback = { Display = Enum.Font.BuilderSansBold, Body = Enum.Font.BuilderSansBold, Desc = Enum.Font.BuilderSansMedium, Strong = Enum.Font.BuilderSansBold }
 Fonts.Faces = {}
 
---@return Font ตามชนิดและภาษาปัจจุบัน (ไทยใช้ Kanit ถ้าโหลดได้)
+--@return Font à¸•à¸²à¸¡à¸Šà¸™à¸´à¸”à¹à¸¥à¸°à¸ à¸²à¸©à¸²à¸›à¸±à¸ˆà¸ˆà¸¸à¸šà¸±à¸™ (à¹„à¸—à¸¢à¹ƒà¸Šà¹‰ Kanit à¸–à¹‰à¸²à¹‚à¸«à¸¥à¸”à¹„à¸”à¹‰)
 function Fonts.Face(kind)
     local thai = State.Language == "TH" and Fonts.ThaiWeights[kind] ~= nil
     local key = (thai and (Fonts.Thai and "TH" or "THF") or "EN") .. kind
@@ -975,7 +975,7 @@ function Fonts.Preload()
     local provider = game:GetService("ContentProvider")
     local probes = {}
     for _, weight in pairs(Fonts.ThaiWeights) do
-        table.insert(probes, Draw.New("TextLabel", { Text = "ก", FontFace = Font.new(Fonts.Thai, weight) }))
+        table.insert(probes, Draw.New("TextLabel", { Text = "à¸", FontFace = Font.new(Fonts.Thai, weight) }))
     end
     Util.Await(Config.PreloadTimeout, provider.PreloadAsync, provider, probes)
     for _, probe in ipairs(probes) do
@@ -1036,7 +1036,7 @@ function Draw.List(parent, gap, horizontal, alignX, alignY)
     })
 end
 
---@param spec ข้อความหรือ {EN,TH} ผูกกับระบบภาษาให้เอง
+--@param spec à¸‚à¹‰à¸­à¸„à¸§à¸²à¸¡à¸«à¸£à¸·à¸­ {EN,TH} à¸œà¸¹à¸à¸à¸±à¸šà¸£à¸°à¸šà¸šà¸ à¸²à¸©à¸²à¹ƒà¸«à¹‰à¹€à¸­à¸‡
 function Draw.Text(props, font, size, token, spec)
     props.BackgroundTransparency = 1
     props.Text = props.Text or ""
@@ -1075,7 +1075,7 @@ function Draw.Box(className, props, fill, stroke, radius, thickness)
     return box
 end
 
---@return holder, face, shade ปุ่มนูนแบบบล็อก กดแล้ว face ยุบลงบนเงา
+--@return holder, face, shade à¸›à¸¸à¹ˆà¸¡à¸™à¸¹à¸™à¹à¸šà¸šà¸šà¸¥à¹‡à¸­à¸ à¸à¸”à¹à¸¥à¹‰à¸§ face à¸¢à¸¸à¸šà¸¥à¸‡à¸šà¸™à¹€à¸‡à¸²
 function Draw.Block(parent, faceToken, shadeToken, radius, depth)
     depth = depth or 4
     local holder = Draw.New("Frame", { BackgroundTransparency = 1, Parent = parent })
@@ -1112,7 +1112,7 @@ function Draw.Cloud(parent, width, token)
     return cloud
 end
 
--- โลโก้ตามธีม: ธีมที่มี Logo ใช้รูปของธีมนั้น ไม่มีใช้ logo ปกติ โหลดไม่ได้วาด M เอง
+-- à¹‚à¸¥à¹‚à¸à¹‰à¸•à¸²à¸¡à¸˜à¸µà¸¡: à¸˜à¸µà¸¡à¸—à¸µà¹ˆà¸¡à¸µ Logo à¹ƒà¸Šà¹‰à¸£à¸¹à¸›à¸‚à¸­à¸‡à¸˜à¸µà¸¡à¸™à¸±à¹‰à¸™ à¹„à¸¡à¹ˆà¸¡à¸µà¹ƒà¸Šà¹‰ logo à¸›à¸à¸•à¸´ à¹‚à¸«à¸¥à¸”à¹„à¸¡à¹ˆà¹„à¸”à¹‰à¸§à¸²à¸” M à¹€à¸­à¸‡
 function Draw.Emblem(parent, size)
     local holder = Draw.New("Frame", { BackgroundTransparency = 1, Size = UDim2.fromOffset(size, size), Parent = parent })
     local picture = Draw.New("ImageLabel", { BackgroundTransparency = 1, AnchorPoint = Vector2.new(0.5, 0.5), Position = UDim2.fromScale(0.5, 0.5), Size = UDim2.fromScale(1, 1), ScaleType = Enum.ScaleType.Fit, Visible = false, Parent = holder })
@@ -1195,7 +1195,7 @@ function Assets.Download(name, url)
     return Util.CustomAsset(path)
 end
 
---@return content id ของรูปที่ผู้ใช้ตั้งทับไว้ หรือ nil ถ้าใช้ของวาดเอง
+--@return content id à¸‚à¸­à¸‡à¸£à¸¹à¸›à¸—à¸µà¹ˆà¸œà¸¹à¹‰à¹ƒà¸Šà¹‰à¸•à¸±à¹‰à¸‡à¸—à¸±à¸šà¹„à¸§à¹‰ à¸«à¸£à¸·à¸­ nil à¸–à¹‰à¸²à¹ƒà¸Šà¹‰à¸‚à¸­à¸‡à¸§à¸²à¸”à¹€à¸­à¸‡
 function Assets.Resolve(name)
     local key = tostring(name):lower()
     local cached = Assets.Cache[key]
@@ -1446,7 +1446,7 @@ function Sprite.Template(name)
     return holder
 end
 
---@param size ความกว้างเป็น px ควรเป็นพหุคูณ 12 ภาพจะคม
+--@param size à¸„à¸§à¸²à¸¡à¸à¸§à¹‰à¸²à¸‡à¹€à¸›à¹‡à¸™ px à¸„à¸§à¸£à¹€à¸›à¹‡à¸™à¸žà¸«à¸¸à¸„à¸¹à¸“ 12 à¸ à¸²à¸žà¸ˆà¸°à¸„à¸¡
 function Sprite.New(parent, name, size)
     local key = Sprite.Resolve(name)
     local image = Assets.Resolve(tostring(name):lower()) or Assets.Resolve(key)
@@ -1462,8 +1462,8 @@ function Sprite.New(parent, name, size)
 end
 
 
--- layout แบบ ImGui: แต่ละ container มี cursor ของตัวเอง item ต่อกันลงล่าง SameLine วางต่อขวา
--- ความกว้าง item: nil = เต็มที่เหลือ, 0<w<=1 = สัดส่วน, w>1 = px, w<0 = ที่เหลือลบ px (เหมือน ImGui)
+-- layout à¹à¸šà¸š ImGui: à¹à¸•à¹ˆà¸¥à¸° container à¸¡à¸µ cursor à¸‚à¸­à¸‡à¸•à¸±à¸§à¹€à¸­à¸‡ item à¸•à¹ˆà¸­à¸à¸±à¸™à¸¥à¸‡à¸¥à¹ˆà¸²à¸‡ SameLine à¸§à¸²à¸‡à¸•à¹ˆà¸­à¸‚à¸§à¸²
+-- à¸„à¸§à¸²à¸¡à¸à¸§à¹‰à¸²à¸‡ item: nil = à¹€à¸•à¹‡à¸¡à¸—à¸µà¹ˆà¹€à¸«à¸¥à¸·à¸­, 0<w<=1 = à¸ªà¸±à¸”à¸ªà¹ˆà¸§à¸™, w>1 = px, w<0 = à¸—à¸µà¹ˆà¹€à¸«à¸¥à¸·à¸­à¸¥à¸š px (à¹€à¸«à¸¡à¸·à¸­à¸™ ImGui)
 function Container.New(host, options)
     options = options or {}
     local self = setmetatable({
@@ -1616,7 +1616,7 @@ local function ResolveWidth(spec, available, used, gap)
     return math.min(spec, remaining)
 end
 
--- ImGui: item ที่อยู่ในแถว SameLine และไม่ได้กำหนดความกว้าง จะพอดีเนื้อหาแทนการยืดเต็ม
+-- ImGui: item à¸—à¸µà¹ˆà¸­à¸¢à¸¹à¹ˆà¹ƒà¸™à¹à¸–à¸§ SameLine à¹à¸¥à¸°à¹„à¸¡à¹ˆà¹„à¸”à¹‰à¸à¸³à¸«à¸™à¸”à¸„à¸§à¸²à¸¡à¸à¸§à¹‰à¸²à¸‡ à¸ˆà¸°à¸žà¸­à¸”à¸µà¹€à¸™à¸·à¹‰à¸­à¸«à¸²à¹à¸—à¸™à¸à¸²à¸£à¸¢à¸·à¸”à¹€à¸•à¹‡à¸¡
 local function ItemWidth(item, joined, available, used, gap)
     if item.Width == nil and item.AutoWidth and not item.Fill and (joined or item.SameLine) then
         return math.min(item.AutoWidth(), math.max(0, available - used))
@@ -1713,7 +1713,7 @@ function Layout.MarkAll()
     end
 end
 
---@return Vector2 ขนาดข้อความเมื่อตัดบรรทัดที่ความกว้าง width
+--@return Vector2 à¸‚à¸™à¸²à¸”à¸‚à¹‰à¸­à¸„à¸§à¸²à¸¡à¹€à¸¡à¸·à¹ˆà¸­à¸•à¸±à¸”à¸šà¸£à¸£à¸—à¸±à¸”à¸—à¸µà¹ˆà¸„à¸§à¸²à¸¡à¸à¸§à¹‰à¸²à¸‡ width
 function Layout.Measure(text, size, fontKind, width)
     width = math.max(1, math.floor(width))
     local key = table.concat({ text, size, fontKind, width, State.Language }, "\0")
@@ -1736,7 +1736,7 @@ function Layout.Measure(text, size, fontKind, width)
     return bounds
 end
 
--- วัดด้วย TextLabel ซ่อนนอกจอ เพราะ GetTextSize รับแค่ Enum.Font ใช้กับฟอนต์ไทยที่โหลดเองไม่ได้
+-- à¸§à¸±à¸”à¸”à¹‰à¸§à¸¢ TextLabel à¸‹à¹ˆà¸­à¸™à¸™à¸­à¸à¸ˆà¸­ à¹€à¸žà¸£à¸²à¸° GetTextSize à¸£à¸±à¸šà¹à¸„à¹ˆ Enum.Font à¹ƒà¸Šà¹‰à¸à¸±à¸šà¸Ÿà¸­à¸™à¸•à¹Œà¹„à¸—à¸¢à¸—à¸µà¹ˆà¹‚à¸«à¸¥à¸”à¹€à¸­à¸‡à¹„à¸¡à¹ˆà¹„à¸”à¹‰
 function Layout.Probe()
     local probe = Layout.ProbeLabel
     if probe and probe.Parent then
@@ -1852,7 +1852,7 @@ function Row.SearchText(info)
     return Lang.SearchText(info.Text or info.Title) .. " " .. Lang.SearchText(info.Description)
 end
 
---@return row แถวข้อความซ้าย + ช่องควบคุมขวา สูงตามข้อความที่ตัดบรรทัด
+--@return row à¹à¸–à¸§à¸‚à¹‰à¸­à¸„à¸§à¸²à¸¡à¸‹à¹‰à¸²à¸¢ + à¸Šà¹ˆà¸­à¸‡à¸„à¸§à¸šà¸„à¸¸à¸¡à¸‚à¸§à¸² à¸ªà¸¹à¸‡à¸•à¸²à¸¡à¸‚à¹‰à¸­à¸„à¸§à¸²à¸¡à¸—à¸µà¹ˆà¸•à¸±à¸”à¸šà¸£à¸£à¸—à¸±à¸”
 function Row.New(container, info, options)
     options = options or {}
     local holder = Draw.New("Frame", { Name = "Row", BackgroundTransparency = 1 })
@@ -1939,7 +1939,7 @@ function Row:SetTitle(text)
     self.Container:MarkDirty()
 end
 
---@return stack ข้อความบน + ช่องควบคุมเต็มความกว้างด้านล่าง
+--@return stack à¸‚à¹‰à¸­à¸„à¸§à¸²à¸¡à¸šà¸™ + à¸Šà¹ˆà¸­à¸‡à¸„à¸§à¸šà¸„à¸¸à¸¡à¹€à¸•à¹‡à¸¡à¸„à¸§à¸²à¸¡à¸à¸§à¹‰à¸²à¸‡à¸”à¹‰à¸²à¸™à¸¥à¹ˆà¸²à¸‡
 function Row.Stack(container, info, controlHeight)
     local holder = Draw.New("Frame", { Name = "Stack", BackgroundTransparency = 1 })
     local stack = setmetatable({ Holder = holder, Container = container, ControlHeight = controlHeight }, { __index = Row })
@@ -2027,14 +2027,14 @@ function Toggle:BuildSwitch()
         Size = UDim2.fromOffset(knobSize, knobSize),
         Parent = self.Track,
     }, "Knob", "Outline", UDim.new(1, 0), 2)
-    self.Mark = Draw.Text({ Text = "★", Size = UDim2.fromScale(1, 1), TextXAlignment = Enum.TextXAlignment.Center, TextTransparency = 1, Parent = self.Knob }, "Glyph", knobSize - 3, "CoinDark")
+    self.Mark = Draw.Text({ Text = "â˜…", Size = UDim2.fromScale(1, 1), TextXAlignment = Enum.TextXAlignment.Center, TextTransparency = 1, Parent = self.Knob }, "Glyph", knobSize - 3, "CoinDark")
     self.Row:AddRight(self.Track, size.X)
 end
 
 function Toggle:BuildCheckbox()
     local size = Util.Metric("Check")
     self.Track = Draw.Box("Frame", { Size = UDim2.fromOffset(size, size) }, "Element", "Outline", 6, 2)
-    self.Mark = Draw.Text({ Text = "✓", Size = UDim2.fromScale(1, 1), TextXAlignment = Enum.TextXAlignment.Center, TextTransparency = 1, Parent = self.Track }, "Glyph", size - 4, "Ink")
+    self.Mark = Draw.Text({ Text = "âœ“", Size = UDim2.fromScale(1, 1), TextXAlignment = Enum.TextXAlignment.Center, TextTransparency = 1, Parent = self.Track }, "Glyph", size - 4, "Ink")
     self.MarkScale = Draw.New("UIScale", { Parent = self.Mark })
     self.Row:AddRight(self.Track, size)
 end
@@ -2229,7 +2229,7 @@ function Slider:SetMin(min)
     self:SetRange(min, self.Max)
 end
 
---@return face ปุ่มกล่องสำหรับ dropdown/input
+--@return face à¸›à¸¸à¹ˆà¸¡à¸à¸¥à¹ˆà¸­à¸‡à¸ªà¸³à¸«à¸£à¸±à¸š dropdown/input
 function Draw.Field(parent, className)
     local field = Draw.Box(className or "TextButton", { Size = UDim2.fromScale(1, 1), Parent = parent }, "Element", "Outline", 8, 2)
     return field
@@ -2271,7 +2271,7 @@ function Dropdown:Build()
     self.Display = Draw.Text({ Position = UDim2.fromOffset(10, 0), Size = UDim2.new(1, -44, 1, 0), TextTruncate = Enum.TextTruncate.AtEnd, Parent = field }, "Body", Util.TextSize("Label"), "Text")
     self:EnsureThumb()
     local cap = Draw.Box("Frame", { AnchorPoint = Vector2.new(1, 0.5), Position = UDim2.new(1, -4, 0.5, 0), Size = UDim2.new(0, 26, 1, -8), Parent = field }, "Accent", "Outline", 6, 2)
-    self.Chevron = Draw.Text({ Text = "▼", Size = UDim2.fromScale(1, 1), TextXAlignment = Enum.TextXAlignment.Center, Parent = cap }, "Glyph", 11, "White")
+    self.Chevron = Draw.Text({ Text = "â–¼", Size = UDim2.fromScale(1, 1), TextXAlignment = Enum.TextXAlignment.Center, Parent = cap }, "Glyph", 11, "White")
     field.MouseEnter:Connect(function()
         if not State.Touch then
             Anim.Tween(field, { BackgroundColor3 = Theme.Colors.Hover }, Config.Tween.Fast)
@@ -2343,8 +2343,8 @@ function Dropdown:Render()
     end
 end
 
---@param images table? ชื่อ -> asset id
---@param colors table? ชื่อ -> Color3
+--@param images table? à¸Šà¸·à¹ˆà¸­ -> asset id
+--@param colors table? à¸Šà¸·à¹ˆà¸­ -> Color3
 function Dropdown:SetImages(images, colors)
     self.Images = images
     self.Colors = colors
@@ -2666,9 +2666,9 @@ function Container:AddSeparatorText(text)
     return self
 end
 
---@return parts ปุ่มแถวที่เลือกได้ (ImGui Selectable) ใช้ร่วมกันทั้ง list, sidebar, popup
---@param image string? asset id ของรูป
---@param tint Color3? สีขอบ (เช่นสี rarity) ไม่ใส่ = สีขอบธีม
+--@return parts à¸›à¸¸à¹ˆà¸¡à¹à¸–à¸§à¸—à¸µà¹ˆà¹€à¸¥à¸·à¸­à¸à¹„à¸”à¹‰ (ImGui Selectable) à¹ƒà¸Šà¹‰à¸£à¹ˆà¸§à¸¡à¸à¸±à¸™à¸—à¸±à¹‰à¸‡ list, sidebar, popup
+--@param image string? asset id à¸‚à¸­à¸‡à¸£à¸¹à¸›
+--@param tint Color3? à¸ªà¸µà¸‚à¸­à¸š (à¹€à¸Šà¹ˆà¸™à¸ªà¸µ rarity) à¹„à¸¡à¹ˆà¹ƒà¸ªà¹ˆ = à¸ªà¸µà¸‚à¸­à¸šà¸˜à¸µà¸¡
 function Draw.Thumb(parent, image, tint, size, position)
     local tile = Draw.Box("ImageLabel", {
         Name = "Thumb",
@@ -2702,7 +2702,7 @@ function Selectable.Build(text, options)
         inset = 14
     end
     local label = Draw.Text({ Position = UDim2.fromOffset(inset, 0), Size = UDim2.new(1, -(inset + 26), 1, 0), TextTruncate = Enum.TextTruncate.AtEnd, Parent = button }, "Body", Util.TextSize("Label"), "Text", text)
-    local mark = Draw.Text({ Text = options.Multi and "✓" or "★", AnchorPoint = Vector2.new(1, 0.5), Position = UDim2.new(1, -8, 0.5, 0), Size = UDim2.fromOffset(18, 18), TextXAlignment = Enum.TextXAlignment.Center, TextTransparency = 1, Parent = button }, "Glyph", Util.TextSize("Label"), "OnAccent")
+    local mark = Draw.Text({ Text = options.Multi and "âœ“" or "â˜…", AnchorPoint = Vector2.new(1, 0.5), Position = UDim2.new(1, -8, 0.5, 0), Size = UDim2.fromOffset(18, 18), TextXAlignment = Enum.TextXAlignment.Center, TextTransparency = 1, Parent = button }, "Glyph", Util.TextSize("Label"), "OnAccent")
     local parts = { Button = button, Label = label, Mark = mark, Selected = false, Hovered = false }
     function parts.Render(instant)
         local duration = instant and 0 or Config.Tween.Fast
@@ -2851,7 +2851,7 @@ end
 
 Progress.SetVisible = Widget.SetVisible
 
---@param info { Height = px (ไม่ใส่ = สูงตามเนื้อหา), Border = true }
+--@param info { Height = px (à¹„à¸¡à¹ˆà¹ƒà¸ªà¹ˆ = à¸ªà¸¹à¸‡à¸•à¸²à¸¡à¹€à¸™à¸·à¹‰à¸­à¸«à¸²), Border = true }
 function Container:AddChild(info)
     info = info or {}
     local holder = Draw.New("Frame", { Name = "Child", BackgroundTransparency = 1 })
@@ -2891,7 +2891,7 @@ function Container:AddColorPicker(idx, info)
 end
 
 
---@return card, face, scale การ์ดลอยมีเงาแข็งแบบบล็อก ขนาด width x height (ไม่รวมเงา)
+--@return card, face, scale à¸à¸²à¸£à¹Œà¸”à¸¥à¸­à¸¢à¸¡à¸µà¹€à¸‡à¸²à¹à¸‚à¹‡à¸‡à¹à¸šà¸šà¸šà¸¥à¹‡à¸­à¸ à¸‚à¸™à¸²à¸” width x height (à¹„à¸¡à¹ˆà¸£à¸§à¸¡à¹€à¸‡à¸²)
 function Popup.Card(width, height)
     local shadow = Config.Group.Shadow
     local card = Draw.New("Frame", { Name = "Popup", BackgroundTransparency = 1, Size = UDim2.fromOffset(width + shadow, height + shadow), ZIndex = 2 })
@@ -2919,7 +2919,7 @@ end
 function Popup.Place(card, anchor)
     local viewport = State.Gui.AbsoluteSize
     local width, height = card.Size.X.Offset * State.UserScale, card.Size.Y.Offset * State.UserScale
-    -- AbsolutePosition นับจากใต้แถบ inset ของ Roblox แต่ overlay นับจากขอบจอ ต้องชดเชย
+    -- AbsolutePosition à¸™à¸±à¸šà¸ˆà¸²à¸à¹ƒà¸•à¹‰à¹à¸–à¸š inset à¸‚à¸­à¸‡ Roblox à¹à¸•à¹ˆ overlay à¸™à¸±à¸šà¸ˆà¸²à¸à¸‚à¸­à¸šà¸ˆà¸­ à¸•à¹‰à¸­à¸‡à¸Šà¸”à¹€à¸Šà¸¢
     local origin, size = anchor.AbsolutePosition - State.Gui.AbsolutePosition, anchor.AbsoluteSize
     local x = math.clamp(origin.X, 8, math.max(8, viewport.X - width - 8))
     local y = origin.Y + size.Y + 6
@@ -2956,7 +2956,7 @@ function Popup.SearchBox(parent, width)
     return box
 end
 
---@param options { Anchor, Values, Multi, Search, IsSelected(value), OnPick(value) -> ปิดไหม, OnClose }
+--@param options { Anchor, Values, Multi, Search, IsSelected(value), OnPick(value) -> à¸›à¸´à¸”à¹„à¸«à¸¡, OnClose }
 function Popup.List(options)
     local itemHeight = Util.Metric("Item")
     local searchHeight = options.Search and (Util.Metric("Box") + 6) or 0
@@ -3095,7 +3095,7 @@ function KeyPicker.New(row, idx, info, linked)
     return picker
 end
 
--- มือถือไม่มีคลิกขวา: กดค้างที่ปุ่มคีย์เพื่อเลือกโหมดแทน
+-- à¸¡à¸·à¸­à¸–à¸·à¸­à¹„à¸¡à¹ˆà¸¡à¸µà¸„à¸¥à¸´à¸à¸‚à¸§à¸²: à¸à¸”à¸„à¹‰à¸²à¸‡à¸—à¸µà¹ˆà¸›à¸¸à¹ˆà¸¡à¸„à¸µà¸¢à¹Œà¹€à¸žà¸·à¹ˆà¸­à¹€à¸¥à¸·à¸­à¸à¹‚à¸«à¸¡à¸”à¹à¸—à¸™
 function KeyPicker:BindLongPress()
     self.Button.InputBegan:Connect(function(input)
         if input.UserInputType ~= Enum.UserInputType.Touch then
@@ -3193,7 +3193,7 @@ function KeyPicker:Deserialize(saved)
     self:SetValue(saved)
 end
 
--- เปลี่ยนโหมดแล้วล้างสถานะค้าง และให้ toggle ที่ผูกไว้ตรงกับโหมดใหม่
+-- à¹€à¸›à¸¥à¸µà¹ˆà¸¢à¸™à¹‚à¸«à¸¡à¸”à¹à¸¥à¹‰à¸§à¸¥à¹‰à¸²à¸‡à¸ªà¸–à¸²à¸™à¸°à¸„à¹‰à¸²à¸‡ à¹à¸¥à¸°à¹ƒà¸«à¹‰ toggle à¸—à¸µà¹ˆà¸œà¸¹à¸à¹„à¸§à¹‰à¸•à¸£à¸‡à¸à¸±à¸šà¹‚à¸«à¸¡à¸”à¹ƒà¸«à¸¡à¹ˆ
 function KeyPicker:SetMode(mode)
     self.Mode = mode
     self.Held, self.Toggled = false, false
@@ -3449,7 +3449,7 @@ function Gui.OnInputBegan(input, processed)
     if name == State.MenuKey and State.Window and not processed then
         State.Window:Toggle()
     end
-    -- เกมมักผูกปุ่มเดียวกันไว้ (เช่น E = Use) แล้ว processed เป็น true เสมอ ปุ่มลัดฟีเจอร์ต้องยังทำงาน
+    -- à¹€à¸à¸¡à¸¡à¸±à¸à¸œà¸¹à¸à¸›à¸¸à¹ˆà¸¡à¹€à¸”à¸µà¸¢à¸§à¸à¸±à¸™à¹„à¸§à¹‰ (à¹€à¸Šà¹ˆà¸™ E = Use) à¹à¸¥à¹‰à¸§ processed à¹€à¸›à¹‡à¸™ true à¹€à¸ªà¸¡à¸­ à¸›à¸¸à¹ˆà¸¡à¸¥à¸±à¸”à¸Ÿà¸µà¹€à¸ˆà¸­à¸£à¹Œà¸•à¹‰à¸­à¸‡à¸¢à¸±à¸‡à¸—à¸³à¸‡à¸²à¸™
     if input.UserInputType == Enum.UserInputType.Keyboard or not processed then
         Keybinds.Dispatch(name, true)
     end
@@ -3493,7 +3493,7 @@ function Gui.OnHeartbeat(deltaTime)
     end
 end
 
---@param handle ส่วนที่จับลาก, move(delta) เรียกทุกครั้งที่ลาก, exclude ปุ่มที่กดแล้วไม่ต้องลาก
+--@param handle à¸ªà¹ˆà¸§à¸™à¸—à¸µà¹ˆà¸ˆà¸±à¸šà¸¥à¸²à¸, move(delta) à¹€à¸£à¸µà¸¢à¸à¸—à¸¸à¸à¸„à¸£à¸±à¹‰à¸‡à¸—à¸µà¹ˆà¸¥à¸²à¸, exclude à¸›à¸¸à¹ˆà¸¡à¸—à¸µà¹ˆà¸à¸”à¹à¸¥à¹‰à¸§à¹„à¸¡à¹ˆà¸•à¹‰à¸­à¸‡à¸¥à¸²à¸
 function Gui.Draggable(handle, move, exclude)
     handle.InputBegan:Connect(function(input)
         if not Util.IsPointer(input) then
@@ -3616,7 +3616,7 @@ function Window:BuildTopbar()
     end, { right })
 end
 
--- ของตกแต่ง topbar ตามธีม: เมฆลอยสำหรับธีมกลางวัน ดาว/ถ่านไฟกะพริบสำหรับธีมกลางคืน
+-- à¸‚à¸­à¸‡à¸•à¸à¹à¸•à¹ˆà¸‡ topbar à¸•à¸²à¸¡à¸˜à¸µà¸¡: à¹€à¸¡à¸†à¸¥à¸­à¸¢à¸ªà¸³à¸«à¸£à¸±à¸šà¸˜à¸µà¸¡à¸à¸¥à¸²à¸‡à¸§à¸±à¸™ à¸”à¸²à¸§/à¸–à¹ˆà¸²à¸™à¹„à¸Ÿà¸à¸°à¸žà¸£à¸´à¸šà¸ªà¸³à¸«à¸£à¸±à¸šà¸˜à¸µà¸¡à¸à¸¥à¸²à¸‡à¸„à¸·à¸™
 function Window:BuildDecor(topbar)
     self.Clouds, self.Stars = {}, {}
     for index, spot in ipairs({ { 0.44, 8, 42 }, { 0.6, 22, 30 } }) do
@@ -3648,7 +3648,7 @@ function Window:BuildDecor(topbar)
     end)
 end
 
--- ของ Halloween นอก topbar: ขอบเรืองส้ม หมอกม่วงด้านล่าง แมงมุมห้อยใย
+-- à¸‚à¸­à¸‡ Halloween à¸™à¸­à¸ topbar: à¸‚à¸­à¸šà¹€à¸£à¸·à¸­à¸‡à¸ªà¹‰à¸¡ à¸«à¸¡à¸­à¸à¸¡à¹ˆà¸§à¸‡à¸”à¹‰à¸²à¸™à¸¥à¹ˆà¸²à¸‡ à¹à¸¡à¸‡à¸¡à¸¸à¸¡à¸«à¹‰à¸­à¸¢à¹ƒà¸¢
 function Window:BuildSpookyBody()
     self.SpookyBody = {}
     local shadow, radius = Config.Window.Shadow, Config.Window.Radius
@@ -3684,7 +3684,7 @@ function Window:RenderDecor()
         cloud.Visible = wide and decor == "Clouds"
     end
     for _, star in ipairs(self.Stars) do
-        star.Text = Theme.Colors.DecorGlyph or "✦"
+        star.Text = Theme.Colors.DecorGlyph or "âœ¦"
         star.Visible = wide and decor == "Stars"
     end
     for _, item in ipairs(self.Spooky or {}) do
@@ -3751,7 +3751,7 @@ function Window:BuildLanguagePill(parent)
     Render()
 end
 
--- วาดไอคอนด้วยเส้น frame เพราะ glyph ✕ ของฟอนต์ในเกมแสดงผลไม่เหมือนกันทุกเครื่อง
+-- à¸§à¸²à¸”à¹„à¸­à¸„à¸­à¸™à¸”à¹‰à¸§à¸¢à¹€à¸ªà¹‰à¸™ frame à¹€à¸žà¸£à¸²à¸° glyph âœ• à¸‚à¸­à¸‡à¸Ÿà¸­à¸™à¸•à¹Œà¹ƒà¸™à¹€à¸à¸¡à¹à¸ªà¸”à¸‡à¸œà¸¥à¹„à¸¡à¹ˆà¹€à¸«à¸¡à¸·à¸­à¸™à¸à¸±à¸™à¸—à¸¸à¸à¹€à¸„à¸£à¸·à¹ˆà¸­à¸‡
 function Window:BuildTopButton(parent, kind, face, shade, ink, callback)
     local size = State.Touch and 36 or 30
     local holder, top = Draw.Block(parent, face, shade, 8, 3)
@@ -4024,7 +4024,7 @@ function Window:OpenMapDetails()
     local _, pingVal = makeStatBox("ping", string.format("%d ms", Util.GetPing() or 0))
     local _, playersVal = makeStatBox("users", string.format("%d/%d", #Players:GetPlayers(), Players.MaxPlayers))
 
-    -- Profile Card (ชื่อเรา)
+    -- Profile Card (à¸Šà¸·à¹ˆà¸­à¹€à¸£à¸²)
     local profBox = Draw.Box("Frame", {
         Name = "MyProfile",
         Position = UDim2.fromOffset(10, bannerHeight + 50),
@@ -4199,185 +4199,6 @@ function Window:OpenMapDetails()
         playerRemoving:Disconnect()
     end)
 end
-
-    -- Profile Card (ชื่อเรา)
-    local profBox = Draw.Box("Frame", {
-        Name = "MyProfile",
-        Position = UDim2.fromOffset(10, bannerHeight + 50),
-        Size = UDim2.new(1, -20, 0, 50),
-        BackgroundTransparency = 0.5,
-        Parent = face,
-    }, "SidebarAlt", "Outline", 8, 1)
-
-    local myAvatar = Draw.Box("ImageLabel", {
-        AnchorPoint = Vector2.new(0, 0.5),
-        Position = UDim2.new(0, 8, 0.5, 0),
-        Size = UDim2.fromOffset(36, 36),
-        Parent = profBox,
-    }, "PanelHeader", "Outline", UDim.new(1, 0), 2)
-    task.spawn(function()
-        local ok, img = pcall(Players.GetUserThumbnailAsync, Players, LocalPlayer.UserId, Enum.ThumbnailType.HeadShot, Enum.ThumbnailSize.Size100x100)
-        if ok and img and myAvatar.Parent then
-            myAvatar.Image = img
-        end
-    end)
-
-    Draw.Text({
-        Text = LocalPlayer.DisplayName,
-        Position = UDim2.fromOffset(52, 8),
-        Size = UDim2.new(1, -110, 0, 18),
-        TextTruncate = Enum.TextTruncate.AtEnd,
-        TextXAlignment = Enum.TextXAlignment.Left,
-        Parent = profBox,
-    }, "Body", 13, "SidebarText")
-
-    Draw.Text({
-        Text = "@" .. LocalPlayer.Name,
-        Position = UDim2.fromOffset(52, 26),
-        Size = UDim2.new(1, -110, 0, 16),
-        TextTruncate = Enum.TextTruncate.AtEnd,
-        TextXAlignment = Enum.TextXAlignment.Left,
-        Parent = profBox,
-    }, "Desc", 11, "SidebarMuted")
-
-    local youTag = Draw.Box("Frame", {
-        AnchorPoint = Vector2.new(1, 0.5),
-        Position = UDim2.new(1, -10, 0.5, 0),
-        Size = UDim2.fromOffset(42, 22),
-        Parent = profBox,
-    }, "Accent", nil, 6)
-    Draw.Text({
-        Text = "YOU",
-        Size = UDim2.fromScale(1, 1),
-        TextXAlignment = Enum.TextXAlignment.Center,
-        Parent = youTag,
-    }, "Logo", 11, "White")
-
-    -- Players in Server List Header
-    local listHeaderY = bannerHeight + 106
-    local listHeader = Draw.Text({
-        Name = "PlayerListHeader",
-        Text = "PLAYERS IN SERVER (" .. tostring(#Players:GetPlayers()) .. ")",
-        Position = UDim2.fromOffset(12, listHeaderY),
-        Size = UDim2.new(1, -24, 0, 18),
-        TextXAlignment = Enum.TextXAlignment.Left,
-        Parent = face,
-    }, "Logo", 12, "Accent")
-
-    -- Scrollable Player List
-    local listScrollY = listHeaderY + 22
-    local listScroll = Layout.ScrollFrame({
-        Position = UDim2.fromOffset(10, listScrollY),
-        Size = UDim2.new(1, -20, 1, -(listScrollY + 10)),
-        Parent = face,
-    })
-    listScroll.ScrollBarThickness = 4
-
-    local function populatePlayers()
-        listScroll:ClearAllChildren()
-        local listLayout = Draw.New("UIListLayout", {
-            SortOrder = Enum.SortOrder.LayoutOrder,
-            Padding = UDim.new(0, 4),
-            Parent = listScroll,
-        })
-        listLayout:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(function()
-            listScroll.CanvasSize = UDim2.fromOffset(0, listLayout.AbsoluteContentSize.Y + 8)
-        end)
-
-        local players = Players:GetPlayers()
-        if listHeader and listHeader.Parent then
-            listHeader.Text = "PLAYERS IN SERVER (" .. tostring(#players) .. ")"
-        end
-        if playersVal and playersVal.Parent then
-            playersVal.Text = string.format("%d/%d", #players, Players.MaxPlayers)
-        end
-
-        for i, player in ipairs(players) do
-            local row = Draw.Box("Frame", {
-                Name = player.Name,
-                Size = UDim2.new(1, -6, 0, 36),
-                BackgroundTransparency = 0.55,
-                LayoutOrder = (player == LocalPlayer) and 0 or i,
-                Parent = listScroll,
-            }, "Element", "Outline", 8, 1)
-
-            local pAvatar = Draw.Box("ImageLabel", {
-                AnchorPoint = Vector2.new(0, 0.5),
-                Position = UDim2.new(0, 6, 0.5, 0),
-                Size = UDim2.fromOffset(26, 26),
-                Parent = row,
-            }, "PanelHeader", "Outline", UDim.new(1, 0), 1)
-
-            task.spawn(function()
-                local ok, img = pcall(Players.GetUserThumbnailAsync, Players, player.UserId, Enum.ThumbnailType.HeadShot, Enum.ThumbnailSize.Size100x100)
-                if ok and img and pAvatar.Parent then
-                    pAvatar.Image = img
-                end
-            end)
-
-            Draw.Text({
-                Text = player.DisplayName,
-                Position = UDim2.fromOffset(38, 4),
-                Size = UDim2.new(1, -110, 0, 16),
-                TextTruncate = Enum.TextTruncate.AtEnd,
-                TextXAlignment = Enum.TextXAlignment.Left,
-                Parent = row,
-            }, "Body", 12, "SidebarText")
-
-            Draw.Text({
-                Text = "@" .. player.Name,
-                Position = UDim2.fromOffset(38, 19),
-                Size = UDim2.new(1, -110, 0, 14),
-                TextTruncate = Enum.TextTruncate.AtEnd,
-                TextXAlignment = Enum.TextXAlignment.Left,
-                Parent = row,
-            }, "Desc", 10, "SidebarMuted")
-
-            if player == LocalPlayer then
-                local mePill = Draw.Box("Frame", {
-                    AnchorPoint = Vector2.new(1, 0.5),
-                    Position = UDim2.new(1, -8, 0.5, 0),
-                    Size = UDim2.fromOffset(32, 18),
-                    Parent = row,
-                }, "Accent", nil, 4)
-                Draw.Text({
-                    Text = "YOU",
-                    Size = UDim2.fromScale(1, 1),
-                    TextXAlignment = Enum.TextXAlignment.Center,
-                    Parent = mePill,
-                }, "Logo", 10, "White")
-            end
-        end
-    end
-
-    populatePlayers()
-
-    local playerAdded = Players.PlayerAdded:Connect(populatePlayers)
-    local playerRemoving = Players.PlayerRemoving:Connect(populatePlayers)
-
-    local active = true
-    task.spawn(function()
-        while active and card.Parent do
-            if fpsVal and fpsVal.Parent then
-                fpsVal.Text = string.format("%d FPS", math.floor(State.Fps + 0.5))
-            end
-            if pingVal and pingVal.Parent then
-                local okPing, ping = pcall(function()
-                    return Stats.Network.ServerStatsItem["Data Ping"]:GetValue()
-                end)
-                pingVal.Text = okPing and string.format("%d ms", math.floor(ping + 0.5)) or "--"
-            end
-            task.wait(0.5)
-        end
-    end)
-
-    Popup.Open(card, scale, nil, function()
-        active = false
-        playerAdded:Disconnect()
-        playerRemoving:Disconnect()
-    end)
-end
-
 function Window:BuildMain()
     local header = Config.Window.Header
     local main = Draw.New("Frame", { Name = "Main", BackgroundTransparency = 1, Position = UDim2.fromOffset(0, Config.Window.Topbar), Parent = self.Body })
@@ -4411,7 +4232,7 @@ function Window:BuildGround()
     Draw.Box("Frame", { Size = UDim2.new(1, 0, 0, 3), Parent = ground }, "Outline")
     self.Ground = ground
     local gripSize = State.Touch and 34 or 24
-    local grip = Draw.Text({ Text = "◢", AnchorPoint = Vector2.new(1, 1), Position = UDim2.new(1, -4, 1, 0), Size = UDim2.fromOffset(gripSize, gripSize), TextXAlignment = Enum.TextXAlignment.Right, TextYAlignment = Enum.TextYAlignment.Bottom, ClassName = "TextButton", AutoButtonColor = false, ZIndex = 4, Parent = ground }, "Glyph", 16, "White")
+    local grip = Draw.Text({ Text = "â—¢", AnchorPoint = Vector2.new(1, 1), Position = UDim2.new(1, -4, 1, 0), Size = UDim2.fromOffset(gripSize, gripSize), TextXAlignment = Enum.TextXAlignment.Right, TextYAlignment = Enum.TextYAlignment.Bottom, ClassName = "TextButton", AutoButtonColor = false, ZIndex = 4, Parent = ground }, "Glyph", 16, "White")
     Draw.Padding(grip, 0, 4, 2, 0)
     Gui.Draggable(grip, function(begin, delta)
         if not delta then
@@ -4422,7 +4243,7 @@ function Window:BuildGround()
     end)
 end
 
--- ขยายจากมุมขวาล่าง: root ยึดกึ่งกลางด้านบน จึงต้องเลื่อนตามครึ่งหนึ่งของความกว้างที่เพิ่ม เพื่อให้ขอบซ้ายอยู่กับที่
+-- à¸‚à¸¢à¸²à¸¢à¸ˆà¸²à¸à¸¡à¸¸à¸¡à¸‚à¸§à¸²à¸¥à¹ˆà¸²à¸‡: root à¸¢à¸¶à¸”à¸à¸¶à¹ˆà¸‡à¸à¸¥à¸²à¸‡à¸”à¹‰à¸²à¸™à¸šà¸™ à¸ˆà¸¶à¸‡à¸•à¹‰à¸­à¸‡à¹€à¸¥à¸·à¹ˆà¸­à¸™à¸•à¸²à¸¡à¸„à¸£à¸¶à¹ˆà¸‡à¸«à¸™à¸¶à¹ˆà¸‡à¸‚à¸­à¸‡à¸„à¸§à¸²à¸¡à¸à¸§à¹‰à¸²à¸‡à¸—à¸µà¹ˆà¹€à¸žà¸´à¹ˆà¸¡ à¹€à¸žà¸·à¹ˆà¸­à¹ƒà¸«à¹‰à¸‚à¸­à¸šà¸‹à¹‰à¸²à¸¢à¸­à¸¢à¸¹à¹ˆà¸à¸±à¸šà¸—à¸µà¹ˆ
 function Window:ResizeFrom(begin, delta)
     if self.Minimized then
         return
@@ -4464,7 +4285,7 @@ function Window:ApplyLayout()
     local bodyHeight = height - Config.Window.Topbar - Config.Window.Ground
     self.Root.Size = UDim2.fromOffset(width + shadow, (self.Minimized and Config.Window.Topbar or height) + shadow)
     if not self.Placed then
-        -- ยึดขอบบนไว้ ตอนยุบหน้าต่างแถบจะอยู่ที่เดิม
+        -- à¸¢à¸¶à¸”à¸‚à¸­à¸šà¸šà¸™à¹„à¸§à¹‰ à¸•à¸­à¸™à¸¢à¸¸à¸šà¸«à¸™à¹‰à¸²à¸•à¹ˆà¸²à¸‡à¹à¸–à¸šà¸ˆà¸°à¸­à¸¢à¸¹à¹ˆà¸—à¸µà¹ˆà¹€à¸”à¸´à¸¡
         self.Placed = true
         self.Root.Position = UDim2.new(0.5, 0, 0.5, -math.floor((height + shadow) * State.UserScale / 2))
     end
@@ -4488,7 +4309,7 @@ function Window:ApplyLayout()
     self:ApplyChrome(width, height)
 end
 
--- จอเตี้ย (มือถือแนวนอน): ซ่อนการ์ดผู้เล่นกับคำอธิบายหัวแท็บ เพื่อคืนพื้นที่ให้เนื้อหา
+-- à¸ˆà¸­à¹€à¸•à¸µà¹‰à¸¢ (à¸¡à¸·à¸­à¸–à¸·à¸­à¹à¸™à¸§à¸™à¸­à¸™): à¸‹à¹ˆà¸­à¸™à¸à¸²à¸£à¹Œà¸”à¸œà¸¹à¹‰à¹€à¸¥à¹ˆà¸™à¸à¸±à¸šà¸„à¸³à¸­à¸˜à¸´à¸šà¸²à¸¢à¸«à¸±à¸§à¹à¸—à¹‡à¸š à¹€à¸žà¸·à¹ˆà¸­à¸„à¸·à¸™à¸žà¸·à¹‰à¸™à¸—à¸µà¹ˆà¹ƒà¸«à¹‰à¹€à¸™à¸·à¹‰à¸­à¸«à¸²
 function Window:ApplyShort(height)
     local short = height < 260
     local header = short and 46 or Config.Window.Header
@@ -4653,8 +4474,8 @@ function Window:SetContentVisible(visible)
     self.Sidebar.Visible, self.Main.Visible, self.Ground.Visible = visible, visible, visible
 end
 
--- พับแบบม้วนเก็บ: Body ตัดขอบเนื้อหาตามความสูงที่ tween อยู่ พื้นอิฐเลื่อนขึ้นไปสอดใต้แถบหัว
--- เนื้อหาถูกซ่อนจริงหลังพับเสร็จเท่านั้น (ไม่ให้ปุ่มที่มองไม่เห็นยังกดได้)
+-- à¸žà¸±à¸šà¹à¸šà¸šà¸¡à¹‰à¸§à¸™à¹€à¸à¹‡à¸š: Body à¸•à¸±à¸”à¸‚à¸­à¸šà¹€à¸™à¸·à¹‰à¸­à¸«à¸²à¸•à¸²à¸¡à¸„à¸§à¸²à¸¡à¸ªà¸¹à¸‡à¸—à¸µà¹ˆ tween à¸­à¸¢à¸¹à¹ˆ à¸žà¸·à¹‰à¸™à¸­à¸´à¸à¹€à¸¥à¸·à¹ˆà¸­à¸™à¸‚à¸¶à¹‰à¸™à¹„à¸›à¸ªà¸­à¸”à¹ƒà¸•à¹‰à¹à¸–à¸šà¸«à¸±à¸§
+-- à¹€à¸™à¸·à¹‰à¸­à¸«à¸²à¸–à¸¹à¸à¸‹à¹ˆà¸­à¸™à¸ˆà¸£à¸´à¸‡à¸«à¸¥à¸±à¸‡à¸žà¸±à¸šà¹€à¸ªà¸£à¹‡à¸ˆà¹€à¸—à¹ˆà¸²à¸™à¸±à¹‰à¸™ (à¹„à¸¡à¹ˆà¹ƒà¸«à¹‰à¸›à¸¸à¹ˆà¸¡à¸—à¸µà¹ˆà¸¡à¸­à¸‡à¹„à¸¡à¹ˆà¹€à¸«à¹‡à¸™à¸¢à¸±à¸‡à¸à¸”à¹„à¸”à¹‰)
 function Window:SetMinimized(minimized)
     if self.Minimized == minimized then
         return
@@ -4735,7 +4556,7 @@ function Tab:RenderButton(instant)
     Theme.Bind(self.Label, { TextColor3 = active and "TabActiveText" or "SidebarText" })
 end
 
--- แท็บที่ซ่อนอยู่จะคำนวณ layout ตอนถูกเปิด ไม่เสียแรงตอนลากขยายหน้าต่าง
+-- à¹à¸—à¹‡à¸šà¸—à¸µà¹ˆà¸‹à¹ˆà¸­à¸™à¸­à¸¢à¸¹à¹ˆà¸ˆà¸°à¸„à¸³à¸™à¸§à¸“ layout à¸•à¸­à¸™à¸–à¸¹à¸à¹€à¸›à¸´à¸” à¹„à¸¡à¹ˆà¹€à¸ªà¸µà¸¢à¹à¸£à¸‡à¸•à¸­à¸™à¸¥à¸²à¸à¸‚à¸¢à¸²à¸¢à¸«à¸™à¹‰à¸²à¸•à¹ˆà¸²à¸‡
 function Tab:ApplyWidth()
     local width = self.PendingWidth
     if not width then
@@ -4781,7 +4602,7 @@ function Tab:ApplyColumns(pageWidth)
     self.Root:MarkDirty()
 end
 
---@param info ชื่อกลุ่ม หรือ { Name, Side = "Left"|"Right", Icon, Collapsed }
+--@param info à¸Šà¸·à¹ˆà¸­à¸à¸¥à¸¸à¹ˆà¸¡ à¸«à¸£à¸·à¸­ { Name, Side = "Left"|"Right", Icon, Collapsed }
 function Tab:AddGroupbox(info, side)
     if type(info) ~= "table" or info.EN then
         info = { Name = info, Side = side }
@@ -4840,7 +4661,7 @@ function Groupbox:BuildHeader(card, info)
         badgeWidth += 6
     end
     Draw.Text({ Position = UDim2.fromOffset(offset, 0), Size = UDim2.new(1, -(offset + 34 + badgeWidth), 1, -2), TextTruncate = Enum.TextTruncate.AtEnd, Parent = bar }, "Body", Util.TextSize("Group"), "Text", info.Name or "")
-    self.Chevron = Draw.Text({ Text = "▼", AnchorPoint = Vector2.new(1, 0.5), Position = UDim2.new(1, -12, 0.5, -1), Size = UDim2.fromOffset(16, 16), TextXAlignment = Enum.TextXAlignment.Center, Rotation = info.Collapsed and -90 or 0, Parent = bar }, "Glyph", 11, "Muted")
+    self.Chevron = Draw.Text({ Text = "â–¼", AnchorPoint = Vector2.new(1, 0.5), Position = UDim2.new(1, -12, 0.5, -1), Size = UDim2.fromOffset(16, 16), TextXAlignment = Enum.TextXAlignment.Center, Rotation = info.Collapsed and -90 or 0, Parent = bar }, "Glyph", 11, "Muted")
     bar.Activated:Connect(function()
         self:SetCollapsed(self.Open.Value > 0.5)
     end)
@@ -4953,7 +4774,7 @@ function Watermark.SetVisible(visible)
     end
 end
 
--- ละอองพื้นหลัง: label ชุดเดียววนใช้ซ้ำ tween เดียวต่อรอบ หยุดเองเมื่อซ่อนเมนู
+-- à¸¥à¸°à¸­à¸­à¸‡à¸žà¸·à¹‰à¸™à¸«à¸¥à¸±à¸‡: label à¸Šà¸¸à¸”à¹€à¸”à¸µà¸¢à¸§à¸§à¸™à¹ƒà¸Šà¹‰à¸‹à¹‰à¸³ tween à¹€à¸”à¸µà¸¢à¸§à¸•à¹ˆà¸­à¸£à¸­à¸š à¸«à¸¢à¸¸à¸”à¹€à¸­à¸‡à¹€à¸¡à¸·à¹ˆà¸­à¸‹à¹ˆà¸­à¸™à¹€à¸¡à¸™à¸¹
 function Particles.Build(parent)
     local layer = Draw.New("Frame", { Name = "Particles", BackgroundTransparency = 1, Size = UDim2.fromScale(1, 1), ClipsDescendants = true, ZIndex = 1, Parent = parent })
     Particles.Layer = layer
@@ -4975,7 +4796,7 @@ function Particles.Glyph()
     if glyphs and #glyphs > 1 then
         return glyphs[math.random(#glyphs)]
     end
-    return Theme.Colors.ParticleGlyph or "✦"
+    return Theme.Colors.ParticleGlyph or "âœ¦"
 end
 
 function Particles.Active()
@@ -5070,7 +4891,7 @@ function Notify.Push(title, content, duration, kind)
 end
 
 
--- หน้าโหลด: ฉากด่านย่อส่วน เห็ดวิ่งบนพื้นเป็นแถบความคืบหน้า แต่ละขั้นผูกกับงานจริง (โหลดฟอนต์ / สร้างเมนู)
+-- à¸«à¸™à¹‰à¸²à¹‚à¸«à¸¥à¸”: à¸‰à¸²à¸à¸”à¹ˆà¸²à¸™à¸¢à¹ˆà¸­à¸ªà¹ˆà¸§à¸™ à¹€à¸«à¹‡à¸”à¸§à¸´à¹ˆà¸‡à¸šà¸™à¸žà¸·à¹‰à¸™à¹€à¸›à¹‡à¸™à¹à¸–à¸šà¸„à¸§à¸²à¸¡à¸„à¸·à¸šà¸«à¸™à¹‰à¸² à¹à¸•à¹ˆà¸¥à¸°à¸‚à¸±à¹‰à¸™à¸œà¸¹à¸à¸à¸±à¸šà¸‡à¸²à¸™à¸ˆà¸£à¸´à¸‡ (à¹‚à¸«à¸¥à¸”à¸Ÿà¸­à¸™à¸•à¹Œ / à¸ªà¸£à¹‰à¸²à¸‡à¹€à¸¡à¸™à¸¹)
 Intro.Width, Intro.Height, Intro.Ground = 600, 320, 44
 Intro.MinStep = 0.22
 Intro.StepTimeout = 15
@@ -5171,7 +4992,7 @@ end
 function Intro.Pill(scene, text)
     local pill = Draw.Box("Frame", { AnchorPoint = Vector2.new(0.5, 0), Position = UDim2.new(0.5, 0, 0, 156), AutomaticSize = Enum.AutomaticSize.X, Size = UDim2.fromOffset(0, 26), BackgroundTransparency = 1, ZIndex = 5, Parent = scene }, "Shadow", nil, UDim.new(1, 0))
     Draw.Padding(pill, 0, 14, 0, 14)
-    local label = Draw.Text({ Text = "WORLD 1-1" .. ((text and text ~= "") and ("  ·  " .. text) or ""), AutomaticSize = Enum.AutomaticSize.X, Size = UDim2.fromScale(0, 1), TextTransparency = 1, ZIndex = 6, Parent = pill }, "Body", 14, "White")
+    local label = Draw.Text({ Text = "WORLD 1-1" .. ((text and text ~= "") and ("  Â·  " .. text) or ""), AutomaticSize = Enum.AutomaticSize.X, Size = UDim2.fromScale(0, 1), TextTransparency = 1, ZIndex = 6, Parent = pill }, "Body", 14, "White")
     return { Frame = pill, Label = label }
 end
 
@@ -5259,7 +5080,7 @@ function Intro.Finale(scene, track)
     end
 end
 
--- ESP กลางของ UI วาดด้วย GUI ล้วน (ไม่พึ่ง Drawing) สคริปต์ส่งแค่ Provider ที่คืนรายการเป้า
+-- ESP à¸à¸¥à¸²à¸‡à¸‚à¸­à¸‡ UI à¸§à¸²à¸”à¸”à¹‰à¸§à¸¢ GUI à¸¥à¹‰à¸§à¸™ (à¹„à¸¡à¹ˆà¸žà¸¶à¹ˆà¸‡ Drawing) à¸ªà¸„à¸£à¸´à¸›à¸•à¹Œà¸ªà¹ˆà¸‡à¹à¸„à¹ˆ Provider à¸—à¸µà¹ˆà¸„à¸·à¸™à¸£à¸²à¸¢à¸à¸²à¸£à¹€à¸›à¹‰à¸²
 local Visuals = {
     Settings = {
         Enabled = false,
@@ -5340,7 +5161,7 @@ function Visuals.Label(parent, alignY)
     return label
 end
 
---@return table ชุด GUI ของเป้าหนึ่งตัว สร้างครั้งเดียวแล้วใช้ซ้ำ
+--@return table à¸Šà¸¸à¸” GUI à¸‚à¸­à¸‡à¹€à¸›à¹‰à¸²à¸«à¸™à¸¶à¹ˆà¸‡à¸•à¸±à¸§ à¸ªà¸£à¹‰à¸²à¸‡à¸„à¸£à¸±à¹‰à¸‡à¹€à¸”à¸µà¸¢à¸§à¹à¸¥à¹‰à¸§à¹ƒà¸Šà¹‰à¸‹à¹‰à¸³
 function Visuals.BuildEntry(parent)
     local entry = {}
     entry.Box = Draw.New("Frame", { BackgroundTransparency = 1, Visible = false, Parent = parent })
@@ -5360,7 +5181,7 @@ function Visuals.BuildEntry(parent)
     entry.Dot = Draw.New("Frame", { AnchorPoint = Vector2.new(0.5, 0.5), Size = UDim2.fromOffset(6, 6), Visible = false, Parent = parent })
     Draw.Corner(entry.Dot, 3)
     entry.Arrow = Visuals.Label(parent, 0.5)
-    entry.Arrow.Text = "▲"
+    entry.Arrow.Text = "â–²"
     entry.Arrow.Size = UDim2.fromOffset(20, 20)
     return entry
 end
@@ -5397,7 +5218,7 @@ function Visuals.SetLine(line, from, to, thickness)
     line.Visible = true
 end
 
--- วางกล่อง/แถบ/ป้ายจากกรอบ 2D (x,y มุมซ้ายบน, w,h) ใช้ร่วมกันทั้ง ESP จริงและกรอบ preview
+-- à¸§à¸²à¸‡à¸à¸¥à¹ˆà¸­à¸‡/à¹à¸–à¸š/à¸›à¹‰à¸²à¸¢à¸ˆà¸²à¸à¸à¸£à¸­à¸š 2D (x,y à¸¡à¸¸à¸¡à¸‹à¹‰à¸²à¸¢à¸šà¸™, w,h) à¹ƒà¸Šà¹‰à¸£à¹ˆà¸§à¸¡à¸à¸±à¸™à¸—à¸±à¹‰à¸‡ ESP à¸ˆà¸£à¸´à¸‡à¹à¸¥à¸°à¸à¸£à¸­à¸š preview
 function Visuals.Layout(entry, x, y, w, h, info, color, origin)
     local settings = Visuals.Settings
     local full = settings.Box and settings.BoxStyle ~= "Corner"
@@ -5624,14 +5445,14 @@ function Visuals:SetPreview(on)
     self:Set("Preview", on == true)
 end
 
--- กรอบ preview ด้านขวาของหน้าต่าง: โคลนตัวละครเราใส่ ViewportFrame แล้ววาด ESP ทับด้วยค่าเดียวกัน
+-- à¸à¸£à¸­à¸š preview à¸”à¹‰à¸²à¸™à¸‚à¸§à¸²à¸‚à¸­à¸‡à¸«à¸™à¹‰à¸²à¸•à¹ˆà¸²à¸‡: à¹‚à¸„à¸¥à¸™à¸•à¸±à¸§à¸¥à¸°à¸„à¸£à¹€à¸£à¸²à¹ƒà¸ªà¹ˆ ViewportFrame à¹à¸¥à¹‰à¸§à¸§à¸²à¸” ESP à¸—à¸±à¸šà¸”à¹‰à¸§à¸¢à¸„à¹ˆà¸²à¹€à¸”à¸µà¸¢à¸§à¸à¸±à¸™
 function Visuals.PreviewBuild()
     local window = State.Window
     if not window or Visuals.Preview.Frame then
         return
     end
     local panel = Draw.Box("Frame", { Name = "EspPreview", Position = UDim2.new(1, 6, 0, 0), Size = UDim2.new(0, 230, 1, -Config.Window.Shadow), BackgroundTransparency = 0, Visible = false, ClipsDescendants = true, Parent = window.Root }, "Backdrop", "Outline", Config.Window.Radius, Config.Window.Stroke)
-    local title = Draw.Text({ Position = UDim2.fromOffset(12, 8), Size = UDim2.new(1, -24, 0, 22) }, "Display", Util.TextSize("Group"), "Text", { EN = "ESP Preview", TH = "ตัวอย่าง ESP" })
+    local title = Draw.Text({ Position = UDim2.fromOffset(12, 8), Size = UDim2.new(1, -24, 0, 22) }, "Display", Util.TextSize("Group"), "Text", { EN = "ESP Preview", TH = "à¸•à¸±à¸§à¸­à¸¢à¹ˆà¸²à¸‡ ESP" })
     title.Parent = panel
     local view = Draw.New("ViewportFrame", { Position = UDim2.fromOffset(10, 38), Size = UDim2.new(1, -20, 1, -48), BackgroundColor3 = Color3.fromRGB(18, 18, 24), BackgroundTransparency = 0.15, Ambient = Color3.fromRGB(180, 180, 190), LightColor = Color3.new(1, 1, 1), Parent = panel })
     Draw.Corner(view, 8)
@@ -5692,7 +5513,7 @@ function Visuals.PreviewWanted()
         and (Visuals.PreviewTab == nil or window.ActiveTab == Visuals.PreviewTab)
 end
 
--- เลื่อนเข้าแบบเด้งตอนเปิด เลื่อนกลับเข้าหลังหน้าต่างตอนปิด
+-- à¹€à¸¥à¸·à¹ˆà¸­à¸™à¹€à¸‚à¹‰à¸²à¹à¸šà¸šà¹€à¸”à¹‰à¸‡à¸•à¸­à¸™à¹€à¸›à¸´à¸” à¹€à¸¥à¸·à¹ˆà¸­à¸™à¸à¸¥à¸±à¸šà¹€à¸‚à¹‰à¸²à¸«à¸¥à¸±à¸‡à¸«à¸™à¹‰à¸²à¸•à¹ˆà¸²à¸‡à¸•à¸­à¸™à¸›à¸´à¸”
 function Visuals.PreviewShow(on)
     local preview = Visuals.Preview
     if not preview.Frame or preview.Shown == on then
@@ -5736,13 +5557,13 @@ function Visuals.PreviewRender()
     Visuals.PreviewDraw()
 end
 
--- เลือดขึ้นลงเหมือนโดนยิงแล้วฟื้น ระยะแกว่งไปมา ให้เห็นว่าทุกองค์ประกอบขยับตามจริง
+-- à¹€à¸¥à¸·à¸­à¸”à¸‚à¸¶à¹‰à¸™à¸¥à¸‡à¹€à¸«à¸¡à¸·à¸­à¸™à¹‚à¸”à¸™à¸¢à¸´à¸‡à¹à¸¥à¹‰à¸§à¸Ÿà¸·à¹‰à¸™ à¸£à¸°à¸¢à¸°à¹à¸à¸§à¹ˆà¸‡à¹„à¸›à¸¡à¸² à¹ƒà¸«à¹‰à¹€à¸«à¹‡à¸™à¸§à¹ˆà¸²à¸—à¸¸à¸à¸­à¸‡à¸„à¹Œà¸›à¸£à¸°à¸à¸­à¸šà¸‚à¸¢à¸±à¸šà¸•à¸²à¸¡à¸ˆà¸£à¸´à¸‡
 function Visuals.PreviewRoot()
     local model = Visuals.Preview.Model
     return model and (model:FindFirstChild("HumanoidRootPart") or model.PrimaryPart)
 end
 
---@return Vector2 จุดบนจอของ ViewportFrame (กล้องใน viewport ใช้ WorldToViewportPoint ไม่ได้)
+--@return Vector2 à¸ˆà¸¸à¸”à¸šà¸™à¸ˆà¸­à¸‚à¸­à¸‡ ViewportFrame (à¸à¸¥à¹‰à¸­à¸‡à¹ƒà¸™ viewport à¹ƒà¸Šà¹‰ WorldToViewportPoint à¹„à¸¡à¹ˆà¹„à¸”à¹‰)
 function Visuals.PreviewProject(pos, size)
     local cam = Visuals.Preview.Camera
     local rel = cam.CFrame:PointToObjectSpace(pos)
@@ -5799,7 +5620,7 @@ function Visuals.PreviewStep(deltaTime)
     end
 end
 
--- มินิแมพวงกลม ตัวเราอยู่กลาง หมุนตามกล้อง เป้านอกระยะเกาะขอบแบบจาง
+-- à¸¡à¸´à¸™à¸´à¹à¸¡à¸žà¸§à¸‡à¸à¸¥à¸¡ à¸•à¸±à¸§à¹€à¸£à¸²à¸­à¸¢à¸¹à¹ˆà¸à¸¥à¸²à¸‡ à¸«à¸¡à¸¸à¸™à¸•à¸²à¸¡à¸à¸¥à¹‰à¸­à¸‡ à¹€à¸›à¹‰à¸²à¸™à¸­à¸à¸£à¸°à¸¢à¸°à¹€à¸à¸²à¸°à¸‚à¸­à¸šà¹à¸šà¸šà¸ˆà¸²à¸‡
 Visuals.Radar = { Dots = {} }
 
 function Visuals.RadarBuild()
@@ -5821,7 +5642,7 @@ function Visuals.RadarBuild()
     local ring = Draw.New("Frame", { AnchorPoint = Vector2.new(0.5, 0.5), Position = UDim2.fromScale(0.5, 0.5), Size = UDim2.fromScale(0.5, 0.5), BackgroundTransparency = 1, Parent = frame })
     Draw.New("UICorner", { CornerRadius = UDim.new(0.5, 0), Parent = ring })
     Draw.New("UIStroke", { Thickness = 1, Color = Color3.new(1, 1, 1), Transparency = 0.75, Parent = ring })
-    local me = Draw.New("TextLabel", { AnchorPoint = Vector2.new(0.5, 0.5), Position = UDim2.fromScale(0.5, 0.5), Size = UDim2.fromOffset(16, 16), BackgroundTransparency = 1, Text = "▲", TextSize = 14, Font = Enum.Font.GothamBold, TextColor3 = Color3.new(1, 1, 1), ZIndex = 3, Parent = frame })
+    local me = Draw.New("TextLabel", { AnchorPoint = Vector2.new(0.5, 0.5), Position = UDim2.fromScale(0.5, 0.5), Size = UDim2.fromOffset(16, 16), BackgroundTransparency = 1, Text = "â–²", TextSize = 14, Font = Enum.Font.GothamBold, TextColor3 = Color3.new(1, 1, 1), ZIndex = 3, Parent = frame })
     radar.Frame, radar.Me = frame, me
     Gui.Draggable(frame, function(begin, delta)
         if not begin then
@@ -5912,7 +5733,7 @@ function Visuals.Start()
     end)
 end
 
--- สร้างแท็บ Visuals ครบชุดในบรรทัดเดียว คืนค่า tab ให้สคริปต์เติมกลุ่มเองได้
+-- à¸ªà¸£à¹‰à¸²à¸‡à¹à¸—à¹‡à¸š Visuals à¸„à¸£à¸šà¸Šà¸¸à¸”à¹ƒà¸™à¸šà¸£à¸£à¸—à¸±à¸”à¹€à¸”à¸µà¸¢à¸§ à¸„à¸·à¸™à¸„à¹ˆà¸² tab à¹ƒà¸«à¹‰à¸ªà¸„à¸£à¸´à¸›à¸•à¹Œà¹€à¸•à¸´à¸¡à¸à¸¥à¸¸à¹ˆà¸¡à¹€à¸­à¸‡à¹„à¸”à¹‰
 function Window:AddVisualsTab(options)
     options = options or {}
     Visuals.Start()
@@ -5925,38 +5746,38 @@ function Window:AddVisualsTab(options)
             Visuals:Set(key, value)
         end
     end
-    local tab = self:AddTab(options.Name or T("Visuals", "การมองเห็น"), options.Icon or "eye", options.Description or T("Player ESP", "ESP ผู้เล่น"))
+    local tab = self:AddTab(options.Name or T("Visuals", "à¸à¸²à¸£à¸¡à¸­à¸‡à¹€à¸«à¹‡à¸™"), options.Icon or "eye", options.Description or T("Player ESP", "ESP à¸œà¸¹à¹‰à¹€à¸¥à¹ˆà¸™"))
     Visuals.PreviewTab = tab
     Visuals:SetPreview(options.Preview == true)
 
     local main = tab:AddLeftGroupbox(T("ESP", "ESP"), "eye")
-    main:AddToggle("PattomEsp", { Text = T("Enable ESP", "เปิด ESP"), Callback = Bind("Enabled") })
-    main:AddToggle("PattomEspTeam", { Text = T("Team check", "เช็คทีม"), Default = true, Callback = Bind("TeamCheck") })
-    main:AddSlider("PattomEspRange", { Text = T("Max distance", "ระยะสูงสุด"), Min = 50, Max = 5000, Default = 2000, Suffix = "m", Callback = Bind("MaxDistance") })
-    main:AddSlider("PattomEspText", { Text = T("Text size", "ขนาดตัวอักษร"), Min = 9, Max = 20, Default = 13, Callback = Bind("TextSize") })
+    main:AddToggle("PattomEsp", { Text = T("Enable ESP", "à¹€à¸›à¸´à¸” ESP"), Callback = Bind("Enabled") })
+    main:AddToggle("PattomEspTeam", { Text = T("Team check", "à¹€à¸Šà¹‡à¸„à¸—à¸µà¸¡"), Default = true, Callback = Bind("TeamCheck") })
+    main:AddSlider("PattomEspRange", { Text = T("Max distance", "à¸£à¸°à¸¢à¸°à¸ªà¸¹à¸‡à¸ªà¸¸à¸”"), Min = 50, Max = 5000, Default = 2000, Suffix = "m", Callback = Bind("MaxDistance") })
+    main:AddSlider("PattomEspText", { Text = T("Text size", "à¸‚à¸™à¸²à¸”à¸•à¸±à¸§à¸­à¸±à¸à¸©à¸£"), Min = 9, Max = 20, Default = 13, Callback = Bind("TextSize") })
 
-    local look = tab:AddRightGroupbox(T("Elements", "องค์ประกอบ"), "star")
-    look:AddToggle("PattomEspBox", { Text = T("Box", "กล่อง"), Default = true, Callback = Bind("Box") })
-    look:AddDropdown("PattomEspBoxStyle", { Text = T("Box style", "แบบกล่อง"), Values = { "Full", "Corner" }, Default = "Full", Callback = Bind("BoxStyle") })
-    look:AddToggle("PattomEspFill", { Text = T("Box fill", "ถมสีกล่อง"), Callback = Bind("BoxFill") })
-    look:AddToggle("PattomEspName", { Text = T("Name", "ชื่อ"), Default = true, Callback = Bind("Name") })
-    look:AddToggle("PattomEspHealth", { Text = T("Health bar", "แถบเลือด"), Default = true, Callback = Bind("Health") })
-    look:AddToggle("PattomEspHealthText", { Text = T("Health number", "ตัวเลขเลือด"), Callback = Bind("HealthText") })
-    look:AddToggle("PattomEspDistance", { Text = T("Distance", "ระยะ"), Default = true, Callback = Bind("Distance") })
-    look:AddToggle("PattomEspDot", { Text = T("Head dot", "จุดหัว"), Callback = Bind("HeadDot") })
-    look:AddToggle("PattomEspTracer", { Text = T("Tracers", "เส้นนำสายตา"), Callback = Bind("Tracer") })
-    look:AddDropdown("PattomEspTracerFrom", { Text = T("Tracer from", "เส้นเริ่มจาก"), Values = { "Bottom", "Center", "Mouse" }, Default = "Bottom", Callback = Bind("TracerOrigin") })
-    look:AddToggle("PattomEspChams", { Text = T("Chams", "เรืองแสงทะลุกำแพง"), Callback = Bind("Chams") })
-    look:AddToggle("PattomEspArrows", { Text = T("Off-screen arrows", "ลูกศรนอกจอ"), Callback = Bind("Arrows") })
+    local look = tab:AddRightGroupbox(T("Elements", "à¸­à¸‡à¸„à¹Œà¸›à¸£à¸°à¸à¸­à¸š"), "star")
+    look:AddToggle("PattomEspBox", { Text = T("Box", "à¸à¸¥à¹ˆà¸­à¸‡"), Default = true, Callback = Bind("Box") })
+    look:AddDropdown("PattomEspBoxStyle", { Text = T("Box style", "à¹à¸šà¸šà¸à¸¥à¹ˆà¸­à¸‡"), Values = { "Full", "Corner" }, Default = "Full", Callback = Bind("BoxStyle") })
+    look:AddToggle("PattomEspFill", { Text = T("Box fill", "à¸–à¸¡à¸ªà¸µà¸à¸¥à¹ˆà¸­à¸‡"), Callback = Bind("BoxFill") })
+    look:AddToggle("PattomEspName", { Text = T("Name", "à¸Šà¸·à¹ˆà¸­"), Default = true, Callback = Bind("Name") })
+    look:AddToggle("PattomEspHealth", { Text = T("Health bar", "à¹à¸–à¸šà¹€à¸¥à¸·à¸­à¸”"), Default = true, Callback = Bind("Health") })
+    look:AddToggle("PattomEspHealthText", { Text = T("Health number", "à¸•à¸±à¸§à¹€à¸¥à¸‚à¹€à¸¥à¸·à¸­à¸”"), Callback = Bind("HealthText") })
+    look:AddToggle("PattomEspDistance", { Text = T("Distance", "à¸£à¸°à¸¢à¸°"), Default = true, Callback = Bind("Distance") })
+    look:AddToggle("PattomEspDot", { Text = T("Head dot", "à¸ˆà¸¸à¸”à¸«à¸±à¸§"), Callback = Bind("HeadDot") })
+    look:AddToggle("PattomEspTracer", { Text = T("Tracers", "à¹€à¸ªà¹‰à¸™à¸™à¸³à¸ªà¸²à¸¢à¸•à¸²"), Callback = Bind("Tracer") })
+    look:AddDropdown("PattomEspTracerFrom", { Text = T("Tracer from", "à¹€à¸ªà¹‰à¸™à¹€à¸£à¸´à¹ˆà¸¡à¸ˆà¸²à¸"), Values = { "Bottom", "Center", "Mouse" }, Default = "Bottom", Callback = Bind("TracerOrigin") })
+    look:AddToggle("PattomEspChams", { Text = T("Chams", "à¹€à¸£à¸·à¸­à¸‡à¹à¸ªà¸‡à¸—à¸°à¸¥à¸¸à¸à¸³à¹à¸žà¸‡"), Callback = Bind("Chams") })
+    look:AddToggle("PattomEspArrows", { Text = T("Off-screen arrows", "à¸¥à¸¹à¸à¸¨à¸£à¸™à¸­à¸à¸ˆà¸­"), Callback = Bind("Arrows") })
 
-    local colors = tab:AddLeftGroupbox(T("Colors", "สี"), "flower")
-    colors:AddLabel(T("Enemy", "ศัตรู")):AddColorPicker("PattomEspEnemyColor", { Default = Visuals.Settings.EnemyColor, Callback = Bind("EnemyColor") })
-    colors:AddLabel(T("Friendly", "พวกเดียวกัน")):AddColorPicker("PattomEspFriendColor", { Default = Visuals.Settings.FriendColor, Callback = Bind("FriendColor") })
+    local colors = tab:AddLeftGroupbox(T("Colors", "à¸ªà¸µ"), "flower")
+    colors:AddLabel(T("Enemy", "à¸¨à¸±à¸•à¸£à¸¹")):AddColorPicker("PattomEspEnemyColor", { Default = Visuals.Settings.EnemyColor, Callback = Bind("EnemyColor") })
+    colors:AddLabel(T("Friendly", "à¸žà¸§à¸à¹€à¸”à¸µà¸¢à¸§à¸à¸±à¸™")):AddColorPicker("PattomEspFriendColor", { Default = Visuals.Settings.FriendColor, Callback = Bind("FriendColor") })
 
-    local radar = tab:AddLeftGroupbox(T("Radar", "เรดาร์"), "target")
-    radar:AddToggle("PattomRadar", { Text = T("Radar", "เรดาร์"), Description = T("Minimap of nearby players, drag to move", "มินิแมพผู้เล่นรอบตัว ลากย้ายได้"), Callback = Bind("Radar") })
-    radar:AddSlider("PattomRadarRange", { Text = T("Radar range", "ระยะเรดาร์"), Min = 50, Max = 1000, Default = 250, Suffix = "m", Callback = Bind("RadarRange") })
-    radar:AddSlider("PattomRadarSize", { Text = T("Radar size", "ขนาดเรดาร์"), Min = 100, Max = 320, Default = 180, Suffix = "px", Callback = Bind("RadarSize") })
+    local radar = tab:AddLeftGroupbox(T("Radar", "à¹€à¸£à¸”à¸²à¸£à¹Œ"), "target")
+    radar:AddToggle("PattomRadar", { Text = T("Radar", "à¹€à¸£à¸”à¸²à¸£à¹Œ"), Description = T("Minimap of nearby players, drag to move", "à¸¡à¸´à¸™à¸´à¹à¸¡à¸žà¸œà¸¹à¹‰à¹€à¸¥à¹ˆà¸™à¸£à¸­à¸šà¸•à¸±à¸§ à¸¥à¸²à¸à¸¢à¹‰à¸²à¸¢à¹„à¸”à¹‰"), Callback = Bind("Radar") })
+    radar:AddSlider("PattomRadarRange", { Text = T("Radar range", "à¸£à¸°à¸¢à¸°à¹€à¸£à¸”à¸²à¸£à¹Œ"), Min = 50, Max = 1000, Default = 250, Suffix = "m", Callback = Bind("RadarRange") })
+    radar:AddSlider("PattomRadarSize", { Text = T("Radar size", "à¸‚à¸™à¸²à¸”à¹€à¸£à¸”à¸²à¸£à¹Œ"), Min = 100, Max = 320, Default = 180, Suffix = "px", Callback = Bind("RadarSize") })
     return tab
 end
 
@@ -6209,14 +6030,14 @@ function Compat.NeedCap(option, caps)
             return true
         end
         local feature = option.Info and option.Info.Text and Lang.Resolve(option.Info.Text) or option.Idx
-        Library:Notify("Pattom", Library:T(tostring(feature) .. " is not supported on this executor", tostring(feature) .. " ใช้กับ executor นี้ไม่ได้"), 4, "Warn")
+        Library:Notify("Pattom", Library:T(tostring(feature) .. " is not supported on this executor", tostring(feature) .. " à¹ƒà¸Šà¹‰à¸à¸±à¸š executor à¸™à¸µà¹‰à¹„à¸¡à¹ˆà¹„à¸”à¹‰"), 4, "Warn")
         task.defer(option.SetValue, option, false)
         return false
     end)
 end
 
 ---V1 has no disabled state: vetoes turning `option` on and tells the player why (missing game module, unsupported executor).
----@param reason any  text spec, e.g. Library:T("Not available on this executor", "ใช้กับ executor นี้ไม่ได้")
+---@param reason any  text spec, e.g. Library:T("Not available on this executor", "à¹ƒà¸Šà¹‰à¸à¸±à¸š executor à¸™à¸µà¹‰à¹„à¸¡à¹ˆà¹„à¸”à¹‰")
 function Compat.Block(option, reason)
     option = type(option) == "string" and Library.Options[option] or option
     if type(option) ~= "table" or type(option.AddGuard) ~= "function" then
@@ -6388,7 +6209,7 @@ function Compat.Warm()
     end
 end
 
---@return {EN,TH} ข้อความจาก Lang.Strings ที่ format แล้วทั้งสองภาษา
+--@return {EN,TH} à¸‚à¹‰à¸­à¸„à¸§à¸²à¸¡à¸ˆà¸²à¸ Lang.Strings à¸—à¸µà¹ˆ format à¹à¸¥à¹‰à¸§à¸—à¸±à¹‰à¸‡à¸ªà¸­à¸‡à¸ à¸²à¸©à¸²
 function Lang.Format(key, ...)
     local spec = Lang.Strings[key] or { EN = key, TH = key }
     local args = table.pack(...)
@@ -6498,7 +6319,7 @@ function Configs.BuildSection(group)
         local ok, reason = handler(name)
         local action = Lang.Strings[actionKey]
         local message = ok and { EN = action.EN .. ": " .. name, TH = action.TH .. ": " .. name }
-            or { EN = action.EN .. " failed: " .. tostring(reason), TH = action.TH .. " ไม่สำเร็จ: " .. tostring(reason) }
+            or { EN = action.EN .. " failed: " .. tostring(reason), TH = action.TH .. " à¹„à¸¡à¹ˆà¸ªà¸³à¹€à¸£à¹‡à¸ˆ: " .. tostring(reason) }
         Library:Notify(Lang.Strings.Configs, message, 3, ok and "Success" or "Error")
         list:SetValues(Configs.List())
     end
@@ -6528,10 +6349,10 @@ function Window:AddSettingsTab()
     local interface = tab:AddLeftGroupbox(Lang.Strings.Interface, "mushroom")
     interface:AddDropdown("PattomLanguage", {
         Text = Lang.Strings.Language,
-        Values = { "English", "ไทย" },
-        Default = State.Language == "TH" and "ไทย" or "English",
+        Values = { "English", "à¹„à¸—à¸¢" },
+        Default = State.Language == "TH" and "à¹„à¸—à¸¢" or "English",
         Callback = function(value)
-            Library:SetLanguage(value == "ไทย" and "TH" or "EN")
+            Library:SetLanguage(value == "à¹„à¸—à¸¢" and "TH" or "EN")
         end,
     })
     interface:AddDropdown("PattomTheme", { Text = Lang.Strings.ThemeName, Values = Themes.Order, Default = State.ThemeName, Callback = function(name)
@@ -6745,7 +6566,7 @@ function Library:SetLanguage(code)
     Lang.Set(code)
     local option = self.Options.PattomLanguage
     if option then
-        option.Value = code == "TH" and "ไทย" or "English"
+        option.Value = code == "TH" and "à¹„à¸—à¸¢" or "English"
         option:Render()
     end
 end
@@ -6805,7 +6626,7 @@ function Library:LoadAutoloadConfig()
         return
     end
     local ok, reason = Configs.Load(name)
-    local message = ok and { EN = "Autoloaded: " .. name, TH = "โหลดอัตโนมัติ: " .. name } or { EN = "Autoload failed: " .. tostring(reason), TH = "โหลดอัตโนมัติไม่สำเร็จ: " .. tostring(reason) }
+    local message = ok and { EN = "Autoloaded: " .. name, TH = "à¹‚à¸«à¸¥à¸”à¸­à¸±à¸•à¹‚à¸™à¸¡à¸±à¸•à¸´: " .. name } or { EN = "Autoload failed: " .. tostring(reason), TH = "à¹‚à¸«à¸¥à¸”à¸­à¸±à¸•à¹‚à¸™à¸¡à¸±à¸•à¸´à¹„à¸¡à¹ˆà¸ªà¸³à¹€à¸£à¹‡à¸ˆ: " .. tostring(reason) }
     self:Notify(Lang.Strings.Configs, message, 3, ok and "Success" or "Error")
 end
 
