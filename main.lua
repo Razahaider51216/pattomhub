@@ -604,7 +604,7 @@ Library:CreateWindow({
     SubTitle = "PTM",
     MenuKey = Enum.KeyCode.LeftControl,
     ConfigFolder = Config.Folder,
-    Language = "EN",
+    Language = "Auto",
     Theme = "Pattom",
     Scale = phone and 0.9 or 1,
     Assets = { logo = Config.LogoFile },
