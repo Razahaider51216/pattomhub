@@ -4674,7 +4674,7 @@ end
 
 function Float.Build()
     local size = State.Touch and 40 or 34
-    -- Keep the branded launcher anchored at the lower-right while allowing touch repositioning.
+    -- Keep the branded launcher on the right edge while allowing vertical repositioning.
     local button = Draw.New("TextButton", {
         Name = "Float",
         Text = "",
@@ -4683,8 +4683,8 @@ function Float.Build()
         AutoButtonColor = false,
         BackgroundColor3 = Theme.Colors.Topbar,
         BackgroundTransparency = 0.08,
-        AnchorPoint = Vector2.new(1, 1),
-        Position = UDim2.new(1, -18, 1, -(size + 18)),
+        AnchorPoint = Vector2.new(1, 0.5),
+        Position = UDim2.new(1, -10, 0.5, 0),
         Size = UDim2.fromOffset(math.floor(size * 1.5), size),
         ZIndex = Config.Layer.Float,
         Visible = State.Touch,
@@ -4712,22 +4712,24 @@ function Float.Build()
     Float.Button, Float.Slot, Float.Size = button, slot, size
     Anim.Tween(slot, { Position = UDim2.fromOffset(0, -3) }, 0.9, "Sine", -1, true)
     Float.Render()
+    slot.Active = false
+    if Float.Sprite and Float.Sprite:IsA("GuiObject") then
+        Float.Sprite.Active = false
+    end
 
     local moved = false
     local dragOrigin = Vector2.new(0, 0)
-    local function clampPosition(topLeft)
+    local function rightEdgePosition(topLeft)
         local viewport = State.Overlay.AbsoluteSize
         local buttonSize = button.AbsoluteSize
         local margin = 10
-        local maxX = math.max(margin, viewport.X - buttonSize.X - margin)
         local maxY = math.max(margin, viewport.Y - buttonSize.Y - margin)
-        local x = math.clamp(topLeft.X, math.min(margin, maxX), maxX)
         local y = math.clamp(topLeft.Y, math.min(margin, maxY), maxY)
-        return UDim2.new(1, x + buttonSize.X - viewport.X, 1, y + buttonSize.Y - viewport.Y)
+        return UDim2.new(1, -margin, 0.5, y + buttonSize.Y / 2 - viewport.Y / 2)
     end
     Util.Connect(State.Overlay:GetPropertyChangedSignal("AbsoluteSize"), function()
         if button.Parent then
-            button.Position = clampPosition(button.AbsolutePosition)
+            button.Position = rightEdgePosition(button.AbsolutePosition)
         end
     end)
     Gui.Draggable(button, function(_, delta)
@@ -4738,7 +4740,7 @@ function Float.Build()
         end
         moved = moved or delta.Magnitude > Config.DragThreshold
         if moved then
-            button.Position = clampPosition(dragOrigin + delta)
+            button.Position = rightEdgePosition(Vector2.new(button.AbsolutePosition.X, dragOrigin.Y + delta.Y))
         end
         return button.Position
     end)
