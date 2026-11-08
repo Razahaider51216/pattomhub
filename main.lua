@@ -349,7 +349,13 @@ end
 
 every("AutoSell", function() return S.SellInterval end, sellAll)
 every("AutoFood", 3, upgradeFood)
-every("AutoEquipBest", 20, function() invoke("Plot_EquipBest") end)
+local function equipBest()
+    local res = invoke("Plot_EquipBest")
+    if not res.Ok then
+        Stats.Last = "Equip: " .. tostring(res.Reason)
+    end
+end
+every("AutoEquipBest", 20, equipBest)
 every("AutoClaimFree", 30, function() invoke("Shop_ClaimFree") end)
 every("AutoStand", 3, function() invoke("Stand_Upgrade") end)
 every("AutoFence", 3, function() invoke("Plot_UpgradeFence") end)
@@ -586,7 +592,9 @@ local function buildEconomyTab(window)
     local upgradeBox = tab:AddLeftGroupbox(T("Upgrades", "อัปเกรด"), "extras")
     addToggle(upgradeBox, "AutoStand", T("Auto Upgrade Stand", "อัปเกรดแท่นอัตโนมัติ"), T("Spends money", "ใช้เงิน"))
     addToggle(upgradeBox, "AutoFence", T("Auto Upgrade Fence", "อัปเกรดรั้วอัตโนมัติ"), T("Spends money", "ใช้เงิน"))
-    addToggle(upgradeBox, "AutoEquipBest", T("Auto Equip Best", "ใส่สัตว์ดีสุดอัตโนมัติ"), "")
+    addToggle(upgradeBox, "AutoEquipBest", T("Auto Equip Best", "ใส่สัตว์ดีสุดอัตโนมัติ"), "", false, function(enabled)
+        if enabled then task.defer(equipBest) end
+    end)
 
     local rewardBox = tab:AddRightGroupbox(T("Rewards", "รางวัล"), "gift")
     addToggle(rewardBox, "AutoClaimFree", T("Auto Claim Free Reward", "รับของฟรีอัตโนมัติ"), "")

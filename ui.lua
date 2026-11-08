@@ -4673,11 +4673,13 @@ function Groupbox:SetCollapsed(collapsed)
 end
 
 function Float.Build()
-    local size = State.Touch and 56 or 48
+    local size = State.Touch and 40 or 34
     -- Keep the branded launcher anchored at the lower-right while allowing touch repositioning.
     local button = Draw.New("TextButton", {
         Name = "Float",
         Text = "",
+        Active = true,
+        Selectable = false,
         AutoButtonColor = false,
         BackgroundColor3 = Theme.Colors.Topbar,
         BackgroundTransparency = 0.08,
