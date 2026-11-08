@@ -95,11 +95,62 @@ local Data = controller("DataController")
 local ThrowCfg = GameConfig and GameConfig.Throw or {}
 local COOLDOWN = ThrowCfg.Cooldown or 1.5
 
--- Auto Perfect: ThrowMeter.Run has a built-in hook, TestAutoTap = seconds, that taps the meter by
--- itself after that delay. Tapping at the meter peak (ThrowMeterMath.HalfPeriod) gives +20 and the
--- meter, sounds and animations all play as normal.
+-- Auto Perfect: TestAutoTap stops the meter automatically. The game rounds the last rendered meter
+-- sample, so its own Locked path is used during this run to make the returned score exactly 1.
+local originalMeterRun = ThrowMeter and ThrowMeter.Run
+local perfectRunHookInstalled = false
+
+-- The game's timer can stop between render samples, rounding a near-peak hit down to +19.
+-- Its Locked result path resolves the meter at exactly 1, so use it only for this run.
+local function setMeterLocked(meter, value)
+    local setter
+    pcall(function() setter = meter and meter.SetLocked end)
+    if type(setter) == "function" then
+        local ok = pcall(setter, meter, value)
+        if ok then return true end
+    end
+    return pcall(function() meter.Locked = value end)
+end
+
+local function runPerfectMeter(meter, ...)
+    if not S.AutoPerfect or not originalMeterRun then
+        return originalMeterRun(meter, ...)
+    end
+
+    local wasLocked = meter.Locked == true
+    local locked = setMeterLocked(meter, true)
+    local result = table.pack(pcall(originalMeterRun, meter, ...))
+    if locked then setMeterLocked(meter, wasLocked) end
+    if not result[1] then error(result[2], 0) end
+    return table.unpack(result, 2, result.n)
+end
+
+local function writeMeterRun(callback)
+    local ok = pcall(function() ThrowMeter.Run = callback end)
+    if ok then return true end
+    if not setreadonly then return false end
+    local wasReadonly = true
+    if isreadonly then
+        local readable, value = pcall(isreadonly, ThrowMeter)
+        if readable then wasReadonly = value == true end
+    end
+    if not pcall(setreadonly, ThrowMeter, false) then return false end
+    ok = pcall(function() ThrowMeter.Run = callback end)
+    if wasReadonly then pcall(setreadonly, ThrowMeter, true) end
+    return ok
+end
+
+local function setPerfectRunHook(enabled)
+    if not originalMeterRun then return false end
+    if enabled == perfectRunHookInstalled then return true end
+    local ok = writeMeterRun(enabled and runPerfectMeter or originalMeterRun)
+    if ok then perfectRunHookInstalled = enabled end
+    return ok
+end
+
 local function applyPerfect(enabled)
     if not ThrowMeter then return false end
+    local lockHookOk = setPerfectRunHook(enabled)
     local value = nil
     if enabled and MeterMath then value = math.max(0.1, MeterMath.HalfPeriod() - 0.01) end
     local ok = pcall(function() ThrowMeter.TestAutoTap = value end)
@@ -107,7 +158,10 @@ local function applyPerfect(enabled)
         pcall(setreadonly, ThrowMeter, false)
         ok = pcall(function() ThrowMeter.TestAutoTap = value end)
     end
-    return ok
+    if enabled and not lockHookOk then
+        warnf("Auto Perfect exact-score hook unavailable; using timed tap")
+    end
+    return ok and (not enabled or lockHookOk)
 end
 
 -- Reveal boost: GameConfig.Sequence holds the timings of the zoom, name reveal and "tap to continue"
