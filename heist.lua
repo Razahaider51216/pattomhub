@@ -144,8 +144,8 @@ end
 -- Movement -----------------------------------------------------------------------------------
 -- The game does not use a fixed running speed. SpeedPower is converted by SpeedConfig, then the
 -- ride/potion multipliers are applied. GroundGripController finally drives AssemblyLinearVelocity
--- from Humanoid.WalkSpeed. We only read those values here; movement is still performed by the
--- game's Humanoid:MoveTo path, so no CFrame/velocity/WalkSpeed spoofing is involved.
+-- from Humanoid.WalkSpeed. We only read those values here; movement is driven by the same
+-- world-space Humanoid:Move input used by the game's normal controller.
 -- opts.done(hrp) -> true when close enough; opts.cancel() -> true to give up early.
 local PathfindingService = game:GetService("PathfindingService")
 
@@ -224,10 +224,13 @@ local function walkTo(target, opts)
     local deadline = os.clock() + distance / math.max(speed * 0.5, 8) + 10
     local lastPos, lastMoveAt = hrp.Position, os.clock()
     local waypoints, wpIndex, pathAt, jumpAt = nil, 1, 0, 0
+    local function stop(h)
+        pcall(h.Move, h, Vector3.zero, false)
+    end
     while alive and os.clock() < deadline do
         hrp, hum = character()
         if not hrp then return false end
-        if opts.cancel and opts.cancel() then hum:MoveTo(hrp.Position) return false end
+        if opts.cancel and opts.cancel() then stop(hum) return false end
         -- arrival and waypoint radii are fixed distances; scaling them with WalkSpeed made the walker
         -- declare arrival early and skip waypoints (up to 12-14 studs at WalkSpeed 240)
         local arrived
@@ -236,7 +239,7 @@ local function walkTo(target, opts)
         else
             arrived = flatDistance(hrp.Position, target) <= 3 and math.abs(hrp.Position.Y - target.Y) < 12
         end
-        if arrived then hum:MoveTo(hrp.Position) return true end
+        if arrived then stop(hum) return true end
         if not ragdolled() then
             local aim = target
             if waypoints then
@@ -247,12 +250,14 @@ local function walkTo(target, opts)
                 end
                 aim = wp and wp.Position or target
             end
-            -- steer at a speed-scaled lead point so the humanoid never reaches it, slows down or
-            -- hits MoveTo's 8 s expiry; arrival is decided above, once per frame
+            -- Feed world-space input directly. MoveTo targets can cause Roblox's default controller
+            -- to brake as the target is refreshed; direct Move preserves the map's speed pipeline.
             local flat = Vector3.new(aim.X - hrp.Position.X, 0, aim.Z - hrp.Position.Z)
-            local leadDistance = math.clamp(gameMoveSpeed(hrp, hum) * 0.35, 12, 48)
-            local lead = flat.Magnitude > leadDistance and hrp.Position + flat.Unit * leadDistance or aim
-            hum:MoveTo(lead)
+            if flat.Magnitude > 0.05 then
+                hum:Move(flat.Unit, false)
+            else
+                stop(hum)
+            end
             if (hrp.Position - lastPos).Magnitude > 1.5 then
                 lastPos, lastMoveAt = hrp.Position, os.clock()
             elseif os.clock() - lastMoveAt > 0.6 then
