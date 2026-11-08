@@ -355,7 +355,7 @@ local function equipBest()
         Stats.Last = "Equip: " .. tostring(res.Reason)
     end
 end
-every("AutoEquipBest", 20, equipBest)
+every("AutoEquipBest", 5, equipBest)
 every("AutoClaimFree", 30, function() invoke("Shop_ClaimFree") end)
 every("AutoStand", 3, function() invoke("Stand_Upgrade") end)
 every("AutoFence", 3, function() invoke("Plot_UpgradeFence") end)
